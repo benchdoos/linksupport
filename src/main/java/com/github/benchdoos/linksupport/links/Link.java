@@ -6,6 +6,9 @@ import com.github.benchdoos.linksupport.links.impl.InternetShortcutLinkProcessor
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 @AllArgsConstructor
 @Getter
 public enum Link {
@@ -25,11 +28,10 @@ public enum Link {
      * @return link by given extension
      */
     public static Link getByExtension(String extension) {
-        for (Link link : Link.values()) {
-            if (link.extension.equalsIgnoreCase(extension)) {
-                return link;
-            }
-        }
-        return null;
+        final Optional<Link> optionalLink = Arrays.stream(Link.values())
+                .filter(link -> link.getExtension().equalsIgnoreCase(extension))
+                .findFirst();
+
+        return optionalLink.orElse(null);
     }
 }
