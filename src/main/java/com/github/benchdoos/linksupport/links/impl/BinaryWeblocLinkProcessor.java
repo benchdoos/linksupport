@@ -22,21 +22,32 @@ import com.github.benchdoos.linksupport.links.LinkProcessor;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
 import java.text.ParseException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Link processor for MacOS Safari {@code .webloc} file
  */
 public class BinaryWeblocLinkProcessor implements LinkProcessor {
+
     @Override
     public void createLink(URL url, OutputStream outputStream) throws IOException {
         final NSDictionary root = new NSDictionary();
         root.put("URL", url.toString());
         PropertyListParser.saveAsBinary(root, outputStream);
+        outputStream.flush();
+        outputStream.close();
+    }
+
+    @Override
+    public void createLink(URL url, File file) throws IOException {
+        assertThat(!file.isDirectory());
+
+        final FileOutputStream fileOutputStream = new FileOutputStream(file);
+        createLink(url, fileOutputStream);
     }
 
     @Override

@@ -15,6 +15,7 @@
 
 package com.github.benchdoos.linksupport.links;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -31,6 +32,14 @@ public interface LinkProcessor {
      * @param outputStream where to write
      */
     void createLink(URL url, OutputStream outputStream) throws IOException;
+
+    /**
+     * Creates link file. Closes stream after write.
+     *
+     * @param url to write
+     * @param file to create
+     */
+    void createLink(URL url, File file) throws IOException;
 
     /**
      * Gets url from input stream

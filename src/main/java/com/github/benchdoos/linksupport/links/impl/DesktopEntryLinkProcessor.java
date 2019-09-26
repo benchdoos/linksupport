@@ -19,10 +19,10 @@ import com.github.benchdoos.linksupport.core.ApplicationConstants;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
 import com.github.benchdoos.linksupport.links.impl.utils.LinkUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Link processor for Linux {@code .desktop} file
@@ -39,6 +39,14 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
         outputStream.write(("Icon=text-html" + "\n").getBytes());
         outputStream.flush();
         outputStream.close();
+    }
+
+    @Override
+    public void createLink(URL url, File file) throws IOException {
+        assertThat(!file.isDirectory());
+
+        final FileOutputStream fileOutputStream = new FileOutputStream(file);
+        createLink(url, fileOutputStream);
     }
 
     @Override
