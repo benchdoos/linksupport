@@ -5,6 +5,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+/**
+ * Utils for link processing
+ */
 public class LinkUtils {
 
     private static final String URL_PREFIX = "URL=";

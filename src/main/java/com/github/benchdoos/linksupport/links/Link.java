@@ -9,6 +9,9 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.Optional;
 
+/**
+ * Link type information and processing
+ */
 @AllArgsConstructor
 @Getter
 public enum Link {

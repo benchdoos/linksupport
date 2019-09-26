@@ -24,7 +24,7 @@ import java.io.OutputStream;
 import java.net.URL;
 
 /**
- * Link for Windows {@code .url} file
+ * Link processor for {@code .url} file
  */
 public class InternetShortcutLinkProcessor implements LinkProcessor {
 

@@ -29,7 +29,7 @@ import java.net.URL;
 import java.text.ParseException;
 
 /**
- * Webloc link processor
+ * Link processor for MacOS Safari {@code .webloc} file
  */
 public class BinaryWeblocLinkProcessor implements LinkProcessor {
     @Override

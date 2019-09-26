@@ -25,7 +25,7 @@ import java.io.OutputStream;
 import java.net.URL;
 
 /**
- * Link for Linux {@code .desktop} file
+ * Link processor for Linux {@code .desktop} file
  */
 public class DesktopEntryLinkProcessor implements LinkProcessor {
 
