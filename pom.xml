@@ -23,8 +23,8 @@
 
     <scm>
         <url>https://github.com/benchdoos/LinkSupport</url>
-        <connection>scm:git:git@github.com:benchdoos/linksupport.git</connection>
-        <developerConnection>scm:git:git@github.com:benchdoos/linksupport.git</developerConnection>
+        <connection>scm:git:git@github.com:benchdoos/LinkSupport.git</connection>
+        <developerConnection>scm:git:git@github.com:benchdoos/LinkSupport.git</developerConnection>
     </scm>
 
     <licenses>
