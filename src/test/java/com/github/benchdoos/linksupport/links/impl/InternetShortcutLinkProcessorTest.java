@@ -13,7 +13,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 class InternetShortcutLinkProcessorTest {
     private static final String RESOURCES = "src/test/resources";
-    private static final String EXPECTED_URL = "http://test.com/";
+    private static final String EXPECTED_URL = "https://github.com/benchdoos/LinkSupport";
 
 
     @org.junit.jupiter.api.Test
