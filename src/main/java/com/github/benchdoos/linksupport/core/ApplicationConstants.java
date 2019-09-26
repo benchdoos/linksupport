@@ -1,4 +1,4 @@
-package com.github.benchdoos.weblocsupport.core;
+package com.github.benchdoos.linksupport.core;
 
 import java.nio.charset.StandardCharsets;
 

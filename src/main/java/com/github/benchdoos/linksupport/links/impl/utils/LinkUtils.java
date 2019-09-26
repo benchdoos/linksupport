@@ -1,4 +1,4 @@
-package com.github.benchdoos.weblocsupport.links.impl.utils;
+package com.github.benchdoos.linksupport.links.impl.utils;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;

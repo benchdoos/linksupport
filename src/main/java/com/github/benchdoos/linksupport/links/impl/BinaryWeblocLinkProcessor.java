@@ -13,36 +13,39 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package com.github.benchdoos.weblocsupport.links.impl;
+package com.github.benchdoos.linksupport.links.impl;
 
-import com.github.benchdoos.weblocsupport.core.ApplicationConstants;
-import com.github.benchdoos.weblocsupport.links.LinkProcessor;
-import com.github.benchdoos.weblocsupport.links.impl.utils.LinkUtils;
+import com.dd.plist.NSDictionary;
+import com.dd.plist.PropertyListFormatException;
+import com.dd.plist.PropertyListParser;
+import com.github.benchdoos.linksupport.links.LinkProcessor;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.text.ParseException;
 
 /**
- * Link for Linux {@code .desktop} file
+ * Webloc link processor
  */
-public class DesktopEntryLinkProcessor implements LinkProcessor {
-
+public class BinaryWeblocLinkProcessor implements LinkProcessor {
     @Override
     public void createLink(URL url, OutputStream outputStream) throws IOException {
-        outputStream.write("[Desktop Entry]\n".getBytes());
-        outputStream.write(("Encoding=" + ApplicationConstants.DEFAULT_APPLICATION_CHARSET + "\n").getBytes());
-//        outputStream.write(("Name=" + file.getName() + "\n").getBytes()); //todo return it back if possible
-        outputStream.write(("URL=" + url.toString() + "\n").getBytes());
-        outputStream.write(("Type=Link" + "\n").getBytes());
-        outputStream.write(("Icon=text-html" + "\n").getBytes());
-        outputStream.flush();
-        outputStream.close();
+        final NSDictionary root = new NSDictionary();
+        root.put("URL", url.toString());
+        PropertyListParser.saveAsBinary(root, outputStream);
     }
 
     @Override
     public URL getUrl(InputStream inputStream) throws IOException {
-        return LinkUtils.getUrl(inputStream);
+        try {
+            final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(inputStream);
+            return new URL(rootDict.objectForKey("URL").toString());
+        } catch (PropertyListFormatException | ParseException | ParserConfigurationException | SAXException e) {
+            throw new IOException("Could not parse input stream", e);
+        }
     }
 }

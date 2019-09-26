@@ -13,10 +13,7 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package com.github.benchdoos.weblocsupport.links.impl;
-
-import com.github.benchdoos.weblocsupport.links.LinkProcessor;
-import com.github.benchdoos.weblocsupport.links.impl.utils.LinkUtils;
+package com.github.benchdoos.linksupport.links;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,20 +21,25 @@ import java.io.OutputStream;
 import java.net.URL;
 
 /**
- * Link for Windows {@code .url} file
+ * Gives ability to create link and get url from link.
  */
-public class InternetShortcutLinkProcessor implements LinkProcessor {
+public interface LinkProcessor {
+    /**
+     * Creates link in output stream. Closes stream after write.
+     *
+     * @param url to create
+     * @param outputStream where to write
+     */
+    void createLink(URL url, OutputStream outputStream) throws IOException;
 
-    @Override
-    public void createLink(URL url, OutputStream outputStream) throws IOException {
-        outputStream.write(("[InternetShortcut]\n").getBytes());
-        outputStream.write(("URL=" + url.toString() + "\n").getBytes());
-        outputStream.flush();
-        outputStream.close();
-    }
+    /**
+     * Gets url from input stream
+     *
+     * @param inputStream from where to read
+     * @return url from stream
+     * @throws java.io.IOException if something wrong with input-output
+     * @throws java.net.MalformedURLException if url can not be parsed
+     */
+    URL getUrl(InputStream inputStream) throws IOException;
 
-    @Override
-    public URL getUrl(InputStream inputStream) throws IOException {
-        return LinkUtils.getUrl(inputStream);
-    }
 }

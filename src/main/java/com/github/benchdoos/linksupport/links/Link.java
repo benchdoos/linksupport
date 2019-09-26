@@ -1,8 +1,8 @@
-package com.github.benchdoos.weblocsupport.links;
+package com.github.benchdoos.linksupport.links;
 
-import com.github.benchdoos.weblocsupport.links.impl.BinaryWeblocLinkProcessor;
-import com.github.benchdoos.weblocsupport.links.impl.DesktopEntryLinkProcessor;
-import com.github.benchdoos.weblocsupport.links.impl.InternetShortcutLinkProcessor;
+import com.github.benchdoos.linksupport.links.impl.BinaryWeblocLinkProcessor;
+import com.github.benchdoos.linksupport.links.impl.DesktopEntryLinkProcessor;
+import com.github.benchdoos.linksupport.links.impl.InternetShortcutLinkProcessor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
