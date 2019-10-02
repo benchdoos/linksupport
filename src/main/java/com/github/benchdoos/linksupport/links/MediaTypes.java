@@ -6,6 +6,7 @@ public class MediaTypes {
     private static final String APPLICATION = "application";
     private static final String TEXT = "text";
 
+    //todo check all media types!
     public static MediaType APPLICATION_OCTET_STREAM = new MediaType(APPLICATION, "octet-stream");
     public static MediaType WWWSERVER_REDIRECTION = new MediaType("wwwserver", "redirection");
     public static MediaType APPLICATION_INTERNET_SHORTCUT = new MediaType(APPLICATION, "internet-shortcut");

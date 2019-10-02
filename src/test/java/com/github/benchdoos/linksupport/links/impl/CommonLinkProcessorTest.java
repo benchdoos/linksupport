@@ -13,6 +13,7 @@ import java.net.URL;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class CommonLinkProcessorTest  extends AbstractTest{
+
     @Test
     void getUrlMustSuccessfullyFinish() throws IOException {
         for (Link testLink : Link.values()) {
@@ -31,5 +32,12 @@ public class CommonLinkProcessorTest  extends AbstractTest{
             assertThat(url.toString()).isEqualTo(EXPECTED_URL);
             assertThat(link).isEqualTo(testLink);
         }
+    }
+
+    @Test
+    void mediaTypeMustNotBeSupported() throws IOException {
+        final File file = new File(RESOURCES + File.separator + "test_link." + Link.WEBLOC_LINK.getExtension());
+        final boolean supports = Link.WEBLOC_LINK.supportsMediaType("invalid media type");
+        assertThat(supports).isFalse();
     }
 }
