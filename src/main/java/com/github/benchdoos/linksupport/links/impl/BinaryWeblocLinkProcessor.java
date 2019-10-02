@@ -20,7 +20,6 @@ import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
 import com.github.benchdoos.linksupport.links.Link;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
-import org.apache.tika.mime.MediaType;
 import org.assertj.core.api.Assertions;
 import org.xml.sax.SAXException;
 
@@ -73,8 +72,7 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
     public URL getUrl(File file) throws IOException {
         Assertions.assertThat(file).isNotNull().exists();
 
-        final MediaType mediaType = MediaType.parse(Files.probeContentType(file.toPath()));
-        Assertions.assertThat(Link.WEBLOC_LINK.supportsMediaType(mediaType)).isTrue();
+        Assertions.assertThat(Link.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()))).isTrue();
 
         return getUrl(new FileInputStream(file));
     }

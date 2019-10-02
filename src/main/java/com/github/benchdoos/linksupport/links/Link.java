@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_INTERNET_SHORTCUT;
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_OCTET_STREAM;
+import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_MSWINURL;
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_URL;
 import static com.github.benchdoos.linksupport.links.MediaTypes.MESSAGE_EXTERNAL_BODY;
 import static com.github.benchdoos.linksupport.links.MediaTypes.TEXT_URL;
@@ -39,7 +40,14 @@ public enum Link {
             "Windows web link",
             "url",
             new InternetShortcutLinkProcessor(),
-            Arrays.asList(WWWSERVER_REDIRECTION, APPLICATION_INTERNET_SHORTCUT, APPLICATION_X_URL, MESSAGE_EXTERNAL_BODY, TEXT_URL, TEXT_X_URL)),
+            Arrays.asList(
+                    WWWSERVER_REDIRECTION,
+                    APPLICATION_INTERNET_SHORTCUT,
+                    APPLICATION_X_MSWINURL,
+                    APPLICATION_X_URL,
+                    MESSAGE_EXTERNAL_BODY,
+                    TEXT_URL,
+                    TEXT_X_URL)),
 
     DESKTOP_LINK("Desktop entry link", "Unix desktop entry link", "desktop", new DesktopEntryLinkProcessor(),
             Collections.emptyList());
@@ -79,10 +87,11 @@ public enum Link {
     /**
      * Checks if current {@link com.github.benchdoos.linksupport.links.Link} support given media type
      *
-     * @param mediaType for check
+     * @param mediaTypeString for check
      * @return true if supports
      */
-    public boolean supportsMediaType(MediaType mediaType) {
+    public boolean supportsMediaType(String mediaTypeString) {
+        final MediaType mediaType = MediaType.parse(mediaTypeString);
         return mediaTypes.contains(mediaType);
     }
 }

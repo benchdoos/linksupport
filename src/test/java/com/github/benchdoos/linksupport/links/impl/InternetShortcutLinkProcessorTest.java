@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -57,5 +58,12 @@ class InternetShortcutLinkProcessorTest {
                 () -> Link.INTERNET_SHORTCUT_LINK.getLinkProcessor()
                         .getUrl(new ByteArrayInputStream(invalidUrl.getBytes()))
         );
+    }
+
+    @Test
+    void mediaTypeMustBeSupported() throws IOException {
+        final File file = new File(RESOURCES + File.separator + "test_link." + Link.INTERNET_SHORTCUT_LINK.getExtension());
+        final boolean supports = Link.INTERNET_SHORTCUT_LINK.supportsMediaType(Files.probeContentType(file.toPath()));
+        assertThat(supports).isTrue();
     }
 }
