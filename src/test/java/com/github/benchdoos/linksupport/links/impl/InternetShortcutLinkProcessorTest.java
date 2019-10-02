@@ -1,5 +1,6 @@
 package com.github.benchdoos.linksupport.links.impl;
 
+import com.github.benchdoos.linksupport.AbstractTest;
 import com.github.benchdoos.linksupport.links.Link;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import java.nio.file.Files;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class InternetShortcutLinkProcessorTest  extends AbstractTest{
+class InternetShortcutLinkProcessorTest  extends AbstractTest {
     @Test
     void createLink() throws IOException {
         final ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
