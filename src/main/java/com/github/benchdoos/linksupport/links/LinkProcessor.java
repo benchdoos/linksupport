@@ -51,4 +51,14 @@ public interface LinkProcessor {
      */
     URL getUrl(InputStream inputStream) throws IOException;
 
+    /**
+     * Gets url from file
+     *
+     * @param file to read
+     * @return url from file
+     * @throws java.io.IOException if something wrong with file
+     * @throws java.net.MalformedURLException if url can not bes parsed
+     */
+    URL getUrl(File file) throws IOException;
+
 }

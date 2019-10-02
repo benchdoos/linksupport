@@ -17,8 +17,14 @@ package com.github.benchdoos.linksupport.links.impl;
 
 import com.github.benchdoos.linksupport.links.LinkProcessor;
 import com.github.benchdoos.linksupport.links.impl.utils.LinkUtils;
+import org.assertj.core.api.Assertions;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,5 +53,12 @@ public class InternetShortcutLinkProcessor implements LinkProcessor {
     @Override
     public URL getUrl(InputStream inputStream) throws IOException {
         return LinkUtils.getUrl(inputStream);
+    }
+
+    @Override
+    public URL getUrl(File file) throws IOException {
+        Assertions.assertThat(file).isNotNull().exists();
+
+        return getUrl(new FileInputStream(file));
     }
 }

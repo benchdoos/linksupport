@@ -80,6 +80,14 @@
             <version>2.5</version>
         </dependency>
 
+        <!-- Apache Tika for media-types support-->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>1.22</version>
+        </dependency>
+
+
         <!-- Lombok support -->
         <dependency>
             <groupId>org.projectlombok</groupId>
