@@ -15,7 +15,7 @@
 
 package com.github.benchdoos.linksupport.links.impl;
 
-import com.github.benchdoos.linksupport.core.ApplicationConstants;
+import com.github.benchdoos.linksupport.core.LinkSupportConstants;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
 import com.github.benchdoos.linksupport.links.impl.utils.LinkUtils;
 import org.assertj.core.api.Assertions;
@@ -38,7 +38,7 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
     @Override
     public void createLink(URL url, OutputStream outputStream) throws IOException {
         outputStream.write("[Desktop Entry]\n".getBytes());
-        outputStream.write(("Encoding=" + ApplicationConstants.DEFAULT_APPLICATION_CHARSET + "\n").getBytes());
+        outputStream.write(("Encoding=" + LinkSupportConstants.DEFAULT_APPLICATION_CHARSET + "\n").getBytes());
 //        outputStream.write(("Name=" + file.getName() + "\n").getBytes()); //todo return it back if possible
         outputStream.write(("URL=" + url.toString() + "\n").getBytes());
         outputStream.write(("Type=Link" + "\n").getBytes());
