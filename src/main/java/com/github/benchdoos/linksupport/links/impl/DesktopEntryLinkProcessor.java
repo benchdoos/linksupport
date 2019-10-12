@@ -15,11 +15,17 @@
 
 package com.github.benchdoos.linksupport.links.impl;
 
-import com.github.benchdoos.linksupport.core.ApplicationConstants;
+import com.github.benchdoos.linksupport.core.LinkSupportConstants;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
 import com.github.benchdoos.linksupport.links.impl.utils.LinkUtils;
+import org.assertj.core.api.Assertions;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,7 +38,7 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
     @Override
     public void createLink(URL url, OutputStream outputStream) throws IOException {
         outputStream.write("[Desktop Entry]\n".getBytes());
-        outputStream.write(("Encoding=" + ApplicationConstants.DEFAULT_APPLICATION_CHARSET + "\n").getBytes());
+        outputStream.write(("Encoding=" + LinkSupportConstants.DEFAULT_APPLICATION_CHARSET + "\n").getBytes());
 //        outputStream.write(("Name=" + file.getName() + "\n").getBytes()); //todo return it back if possible
         outputStream.write(("URL=" + url.toString() + "\n").getBytes());
         outputStream.write(("Type=Link" + "\n").getBytes());
@@ -52,5 +58,12 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
     @Override
     public URL getUrl(InputStream inputStream) throws IOException {
         return LinkUtils.getUrl(inputStream);
+    }
+
+    @Override
+    public URL getUrl(File file) throws IOException {
+        Assertions.assertThat(file).isNotNull().exists();
+
+        return getUrl(new FileInputStream(file));
     }
 }

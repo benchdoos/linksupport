@@ -3,8 +3,8 @@ package com.github.benchdoos.linksupport.core;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Constants for application
+ * Constants for library
  */
-public interface ApplicationConstants {
+public interface LinkSupportConstants {
     String DEFAULT_APPLICATION_CHARSET = StandardCharsets.UTF_8.name();
 }

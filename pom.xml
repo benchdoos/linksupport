@@ -6,7 +6,7 @@
 
     <groupId>com.github.benchdoos</groupId>
     <artifactId>LinkSupport</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -78,6 +78,14 @@
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
         </dependency>
+
+        <!-- Apache Tika for media-types support-->
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>1.22</version>
+        </dependency>
+
 
         <!-- Lombok support -->
         <dependency>

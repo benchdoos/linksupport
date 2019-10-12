@@ -18,12 +18,20 @@ package com.github.benchdoos.linksupport.links.impl;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
+import com.github.benchdoos.linksupport.links.Link;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
+import org.assertj.core.api.Assertions;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
 import java.text.ParseException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -58,5 +66,14 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
         } catch (PropertyListFormatException | ParseException | ParserConfigurationException | SAXException e) {
             throw new IOException("Could not parse input stream", e);
         }
+    }
+
+    @Override
+    public URL getUrl(File file) throws IOException {
+        Assertions.assertThat(file).isNotNull().exists();
+
+        Assertions.assertThat(Link.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()))).isTrue();
+
+        return getUrl(new FileInputStream(file));
     }
 }
