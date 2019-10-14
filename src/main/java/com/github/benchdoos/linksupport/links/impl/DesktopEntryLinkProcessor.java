@@ -40,7 +40,7 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
     @Override
     public void createLink(URL url, OutputStream outputStream) throws IOException {
         outputStream.write((DESKTOP_ENTRY + "\n").getBytes());
-        outputStream.write(("Encoding=" + LinkSupportConstants.DEFAULT_APPLICATION_CHARSET + "\n").getBytes());
+        outputStream.write(("Encoding=" + LinkSupportConstants.DEFAULT_LIBRARY_CHARSET + "\n").getBytes());
 //        outputStream.write(("Name=" + file.getName() + "\n").getBytes()); //todo return it back if possible
         outputStream.write((LinkUtils.URL_PREFIX + url.toString() + "\n").getBytes());
         outputStream.write(("Type=Link" + "\n").getBytes());
