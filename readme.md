@@ -30,6 +30,12 @@ class Demo {
 ```
 from `java.io.InputStream`:
 ```
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
 class Demo {
     public static void main(String[] args) {
 
@@ -46,6 +52,11 @@ class Demo {
 
 Save `java.net.URL` to `java.io.File`:
 ```
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+
 class Demo {
     public static void main(String[] args) {
 
@@ -63,6 +74,10 @@ class Demo {
 
 If you don't know exact file type, you can use `getLinkForFile(File file)` in `com.github.benchdoos.linksupport.links.Link`:
 ```
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
 class Demo {
     public static void main(String[] args) {
 
