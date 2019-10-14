@@ -31,16 +31,20 @@ import static com.github.benchdoos.linksupport.links.MediaTypes.WWWSERVER_REDIRE
 @AllArgsConstructor
 @Getter
 public enum Link {
+    /**
+     * MacOS Safari binary-based web link
+     */
     WEBLOC_LINK(
             "Webloc link",
-            "MacOS Safari binary-based web link",
             "webloc",
             new BinaryWeblocLinkProcessor(),
             Collections.singletonList(APPLICATION_OCTET_STREAM)),
 
+    /**
+     * Windows web link
+     */
     INTERNET_SHORTCUT_LINK(
             "Internet shortcut link",
-            "Windows web link",
             "url",
             new InternetShortcutLinkProcessor(),
             Arrays.asList(
@@ -51,12 +55,13 @@ public enum Link {
                     MESSAGE_EXTERNAL_BODY,
                     TEXT_URL,
                     TEXT_X_URL)),
-
-    DESKTOP_LINK("Desktop entry link", "Unix desktop entry link", "desktop", new DesktopEntryLinkProcessor(),
+    /**
+     * Unix desktop entry web link
+     */
+    DESKTOP_LINK("Desktop entry link", "desktop", new DesktopEntryLinkProcessor(),
             Collections.singletonList(APPLICATION_X_DESKTOP));
 
     private String name;
-    private String description;
     private String extension;
     private LinkProcessor linkProcessor;
     private List<MediaType> mediaTypes;
