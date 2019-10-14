@@ -2,6 +2,9 @@ package com.github.benchdoos.linksupport.links;
 
 import org.apache.tika.mime.MediaType;
 
+/**
+ * List of supported {@link org.apache.tika.mime.MediaType}
+ */
 public class MediaTypes {
     private static final String APPLICATION = "application";
     private static final String TEXT = "text";
