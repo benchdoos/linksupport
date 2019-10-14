@@ -61,4 +61,11 @@ public interface LinkProcessor {
      */
     URL getUrl(File file) throws IOException;
 
+    /**
+     * Checks if given file is instance of current {@link com.github.benchdoos.linksupport.links.Link} format
+     *
+     * @param file file to load
+     * @return true, if given file is instance of current {@link com.github.benchdoos.linksupport.links.Link}
+     */
+    boolean instance(File file);
 }

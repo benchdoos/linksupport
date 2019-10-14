@@ -6,7 +6,9 @@ import com.github.benchdoos.linksupport.links.impl.InternetShortcutLinkProcessor
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.tika.mime.MediaType;
+import org.assertj.core.api.Assertions;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_INTERNET_SHORTCUT;
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_OCTET_STREAM;
+import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_DESKTOP;
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_MSWINURL;
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_URL;
 import static com.github.benchdoos.linksupport.links.MediaTypes.MESSAGE_EXTERNAL_BODY;
@@ -50,7 +53,7 @@ public enum Link {
                     TEXT_X_URL)),
 
     DESKTOP_LINK("Desktop entry link", "Unix desktop entry link", "desktop", new DesktopEntryLinkProcessor(),
-            Collections.emptyList());
+            Collections.singletonList(APPLICATION_X_DESKTOP));
 
     private String name;
     private String description;
@@ -93,5 +96,22 @@ public enum Link {
     public boolean supportsMediaType(String mediaTypeString) {
         final MediaType mediaType = MediaType.parse(mediaTypeString);
         return mediaTypes.contains(mediaType);
+    }
+
+    /**
+     * Returns {@link com.github.benchdoos.linksupport.links.Link} instance for given file
+     *
+     * @param file to
+     * @return link if supported, otherwise - null
+     */
+    public static Link getLinkForFile(File file) {
+        Assertions.assertThat(file).isNotNull().exists();
+
+        final Optional<Link> supported = Arrays.stream(Link.values())
+                .filter(link -> link.getLinkProcessor().instance(file))
+                .distinct()
+                .findFirst();
+
+        return supported.orElse(null);
     }
 }

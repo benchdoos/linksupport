@@ -16,8 +16,8 @@
 package com.github.benchdoos.linksupport.links.impl;
 
 import com.github.benchdoos.linksupport.core.LinkSupportConstants;
+import com.github.benchdoos.linksupport.links.Link;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
-import com.github.benchdoos.linksupport.links.impl.utils.LinkUtils;
 import org.assertj.core.api.Assertions;
 
 import java.io.File;
@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,13 +35,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Link processor for Linux {@code .desktop} file
  */
 public class DesktopEntryLinkProcessor implements LinkProcessor {
+    private static final String DESKTOP_ENTRY = "[Desktop Entry]";
 
     @Override
     public void createLink(URL url, OutputStream outputStream) throws IOException {
-        outputStream.write("[Desktop Entry]\n".getBytes());
+        outputStream.write((DESKTOP_ENTRY + "\n").getBytes());
         outputStream.write(("Encoding=" + LinkSupportConstants.DEFAULT_APPLICATION_CHARSET + "\n").getBytes());
 //        outputStream.write(("Name=" + file.getName() + "\n").getBytes()); //todo return it back if possible
-        outputStream.write(("URL=" + url.toString() + "\n").getBytes());
+        outputStream.write((LinkUtils.URL_PREFIX + url.toString() + "\n").getBytes());
         outputStream.write(("Type=Link" + "\n").getBytes());
         outputStream.write(("Icon=text-html" + "\n").getBytes());
         outputStream.flush();
@@ -65,5 +67,18 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
         Assertions.assertThat(file).isNotNull().exists();
 
         return getUrl(new FileInputStream(file));
+    }
+
+    @Override
+    public boolean instance(File file) {
+        Assertions.assertThat(file).isNotNull().exists();
+
+        try {
+            Assertions.assertThat(Link.DESKTOP_LINK.supportsMediaType(Files.probeContentType(file.toPath()))).isTrue();
+        } catch (Throwable e) {
+            return false;
+        }
+
+        return LinkUtils.contains(file, DESKTOP_ENTRY);
     }
 }

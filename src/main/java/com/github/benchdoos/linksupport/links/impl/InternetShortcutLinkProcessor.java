@@ -15,8 +15,8 @@
 
 package com.github.benchdoos.linksupport.links.impl;
 
+import com.github.benchdoos.linksupport.links.Link;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
-import com.github.benchdoos.linksupport.links.impl.utils.LinkUtils;
 import org.assertj.core.api.Assertions;
 
 import java.io.File;
@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -34,10 +35,12 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 public class InternetShortcutLinkProcessor implements LinkProcessor {
 
+    private static final String INTERNET_SHORTCUT = "[InternetShortcut]";
+
     @Override
     public void createLink(URL url, OutputStream outputStream) throws IOException {
-        outputStream.write(("[InternetShortcut]\n").getBytes());
-        outputStream.write(("URL=" + url.toString() + "\n").getBytes());
+        outputStream.write((INTERNET_SHORTCUT + "\n").getBytes());
+        outputStream.write((LinkUtils.URL_PREFIX + url.toString() + "\n").getBytes());
         outputStream.flush();
         outputStream.close();
     }
@@ -60,5 +63,17 @@ public class InternetShortcutLinkProcessor implements LinkProcessor {
         Assertions.assertThat(file).isNotNull().exists();
 
         return getUrl(new FileInputStream(file));
+    }
+
+    @Override
+    public boolean instance(File file) {
+        Assertions.assertThat(file).isNotNull().exists();
+
+        try {
+            Assertions.assertThat(Link.INTERNET_SHORTCUT_LINK.supportsMediaType(Files.probeContentType(file.toPath()))).isTrue();
+        } catch (Throwable e) {
+            return false;
+        }
+        return LinkUtils.contains(file, INTERNET_SHORTCUT);
     }
 }

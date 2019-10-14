@@ -76,4 +76,18 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
 
         return getUrl(new FileInputStream(file));
     }
+
+    @Override
+    public boolean instance(File file) {
+        Assertions.assertThat(file).isNotNull().exists();
+
+        try (final FileInputStream fileInputStream = new FileInputStream(file)) {
+            Assertions.assertThat(Link.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()))).isTrue();
+
+            final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(fileInputStream);
+            return rootDict.containsKey("URL");
+        } catch (Throwable e) {
+            return false;
+        }
+    }
 }
