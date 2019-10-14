@@ -104,9 +104,10 @@ public enum Link {
     }
 
     /**
-     * Returns {@link com.github.benchdoos.linksupport.links.Link} instance for given file
+     * Returns {@link com.github.benchdoos.linksupport.links.Link} instance for given {@link java.io.File}.
+     * Checks {@link org.apache.tika.mime.MediaType} of given {@link java.io.File}
      *
-     * @param file to
+     * @param file target file
      * @return link if supported, otherwise - null
      */
     public static Link getLinkForFile(File file) {
