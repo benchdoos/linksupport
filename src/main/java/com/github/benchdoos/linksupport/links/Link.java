@@ -61,9 +61,24 @@ public enum Link {
     DESKTOP_LINK("Desktop entry link", "desktop", new DesktopEntryLinkProcessor(),
             Collections.singletonList(APPLICATION_X_DESKTOP));
 
+    /**
+     * Name of link type
+     */
     private String name;
+
+    /**
+     * Extension without dot. Example: {@code file.webloc}, extension - {@code webloc}
+     */
     private String extension;
+
+    /**
+     * Processor, that gives abilities
+     */
     private LinkProcessor linkProcessor;
+
+    /**
+     * Supported media types for link
+     */
     private List<MediaType> mediaTypes;
 
     /**
