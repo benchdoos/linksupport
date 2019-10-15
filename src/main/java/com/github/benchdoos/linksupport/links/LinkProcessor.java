@@ -61,4 +61,13 @@ public interface LinkProcessor {
      */
     URL getUrl(File file) throws IOException;
 
+    /**
+     * Checks if given {@link java.io.File} is instance of current {@link com.github.benchdoos.linksupport.links.Link}
+     * format. Checks {@link org.apache.tika.mime.MediaType} of given {@link java.io.File}.
+     *
+     * @param file file to load
+     * @return true, if given {@link java.io.File} is instance of current
+     * {@link com.github.benchdoos.linksupport.links.Link}
+     */
+    boolean instance(File file);
 }
