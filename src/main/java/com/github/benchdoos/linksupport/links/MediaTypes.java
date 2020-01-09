@@ -14,6 +14,16 @@ public class MediaTypes {
      */
     public static MediaType APPLICATION_OCTET_STREAM = new MediaType(APPLICATION, "octet-stream");
 
+    /**
+     * {@link org.apache.tika.mime.MediaType} for {@link com.github.benchdoos.linksupport.links.Link#WEBLOC_LINK}
+     */
+    public static MediaType APPLICATION_WEBLOCE = new MediaType(APPLICATION, "webloce");
+
+    /**
+     * {@link org.apache.tika.mime.MediaType} for {@link com.github.benchdoos.linksupport.links.Link#WEBLOC_LINK}
+     */
+    public static MediaType APPLICATION_WEBLOC = new MediaType(APPLICATION, "webloc");
+
 
     /**
      * {@link org.apache.tika.mime.MediaType} for {@link com.github.benchdoos.linksupport.links.Link#INTERNET_SHORTCUT_LINK}

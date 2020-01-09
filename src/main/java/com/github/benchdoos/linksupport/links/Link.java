@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_INTERNET_SHORTCUT;
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_OCTET_STREAM;
+import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_WEBLOC;
+import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_WEBLOCE;
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_DESKTOP;
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_MSWINURL;
 import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_URL;
@@ -38,7 +40,11 @@ public enum Link {
             "Webloc link",
             "webloc",
             new BinaryWeblocLinkProcessor(),
-            Collections.singletonList(APPLICATION_OCTET_STREAM)),
+            Arrays.asList(
+                    APPLICATION_OCTET_STREAM,
+                    APPLICATION_WEBLOC,
+                    APPLICATION_WEBLOCE
+            )),
 
     /**
      * Windows web link
