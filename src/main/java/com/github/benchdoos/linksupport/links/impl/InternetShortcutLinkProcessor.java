@@ -69,11 +69,6 @@ public class InternetShortcutLinkProcessor implements LinkProcessor {
     public boolean instance(File file) {
         Assertions.assertThat(file).isNotNull().exists();
 
-        try {
-            Assertions.assertThat(Link.INTERNET_SHORTCUT_LINK.supportsMediaType(Files.probeContentType(file.toPath()))).isTrue();
-        } catch (Throwable e) {
-            return false;
-        }
         return LinkUtils.contains(file, INTERNET_SHORTCUT);
     }
 }

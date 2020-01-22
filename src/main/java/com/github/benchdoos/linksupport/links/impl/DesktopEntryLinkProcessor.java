@@ -72,12 +72,6 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
     public boolean instance(File file) {
         Assertions.assertThat(file).isNotNull().exists();
 
-        try {
-            Assertions.assertThat(Link.DESKTOP_LINK.supportsMediaType(Files.probeContentType(file.toPath()))).isTrue();
-        } catch (Throwable e) {
-            return false;
-        }
-
         return LinkUtils.contains(file, DESKTOP_ENTRY);
     }
 }

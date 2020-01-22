@@ -72,8 +72,6 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
     public URL getUrl(File file) throws IOException {
         Assertions.assertThat(file).isNotNull().exists();
 
-        Assertions.assertThat(Link.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()))).isTrue();
-
         return getUrl(new FileInputStream(file));
     }
 
@@ -82,8 +80,6 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
         Assertions.assertThat(file).isNotNull().exists();
 
         try (final FileInputStream fileInputStream = new FileInputStream(file)) {
-            Assertions.assertThat(Link.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()))).isTrue();
-
             final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(fileInputStream);
             return rootDict.containsKey("URL");
         } catch (Throwable e) {
