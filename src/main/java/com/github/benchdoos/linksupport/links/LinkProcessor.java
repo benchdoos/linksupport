@@ -30,6 +30,7 @@ public interface LinkProcessor {
      *
      * @param url to create
      * @param outputStream where to write
+     * @throws IOException if can not write url to stream
      */
     void createLink(URL url, OutputStream outputStream) throws IOException;
 
@@ -38,6 +39,7 @@ public interface LinkProcessor {
      *
      * @param url to write
      * @param file to create
+     * @throws IOException if can not write url to file
      */
     void createLink(URL url, File file) throws IOException;
 
