@@ -14,7 +14,8 @@ public class BinaryWeblocLinkProcessorTest extends AbstractTest {
     @Test
     void mediaTypeMustBeSupported() throws IOException {
         final File file = new File(RESOURCES + File.separator + "test_link." + Link.WEBLOC_LINK.getExtension());
-        final boolean supports = Link.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()));
+        final String mediaTypeString = Files.probeContentType(file.toPath());
+        final boolean supports = Link.WEBLOC_LINK.supportsMediaType(mediaTypeString != null?mediaTypeString:"application/octet-stream");
         assertThat(supports).isTrue();
     }
 

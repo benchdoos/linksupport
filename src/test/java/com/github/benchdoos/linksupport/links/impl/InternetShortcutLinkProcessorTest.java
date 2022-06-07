@@ -40,8 +40,11 @@ class InternetShortcutLinkProcessorTest  extends AbstractTest {
 
     @Test
     void mediaTypeMustBeSupported() throws IOException {
-        final File file = new File(RESOURCES + File.separator + "test_link." + Link.INTERNET_SHORTCUT_LINK.getExtension());
-        final boolean supports = Link.INTERNET_SHORTCUT_LINK.supportsMediaType(Files.probeContentType(file.toPath()));
+        final File file =
+            new File(RESOURCES + File.separator + "test_link." + Link.INTERNET_SHORTCUT_LINK.getExtension());
+        final String mediaTypeString = Files.probeContentType(file.toPath());
+        final boolean supports = Link.INTERNET_SHORTCUT_LINK.supportsMediaType(
+            mediaTypeString != null ? mediaTypeString : "application/internet-shortcut");
         assertThat(supports).isTrue();
     }
 }
