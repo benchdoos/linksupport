@@ -18,9 +18,7 @@ package com.github.benchdoos.linksupport.links.impl;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
-import com.github.benchdoos.linksupport.links.Link;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
-import org.assertj.core.api.Assertions;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,8 +31,6 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.text.ParseException;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Link processor for MacOS Safari {@code .webloc} file
@@ -52,7 +48,7 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
 
     @Override
     public void createLink(URL url, File file) throws IOException {
-        assertThat(!file.isDirectory());
+        LinkUtils.validateFile(file);
 
         final FileOutputStream fileOutputStream = new FileOutputStream(file);
         createLink(url, fileOutputStream);
@@ -70,19 +66,21 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
 
     @Override
     public URL getUrl(File file) throws IOException {
-        Assertions.assertThat(file).isNotNull().exists();
+        LinkUtils.validateExistedFile(file);
 
-        return getUrl(new FileInputStream(file));
+        try (InputStream inputStream = Files.newInputStream(file.toPath())) {
+            return getUrl(inputStream);
+        }
     }
 
     @Override
     public boolean instance(File file) {
-        Assertions.assertThat(file).isNotNull().exists();
+        LinkUtils.validateExistedFile(file);
 
         try (final FileInputStream fileInputStream = new FileInputStream(file)) {
             final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(fileInputStream);
             return rootDict.containsKey("URL");
-        } catch (Throwable e) {
+        } catch (final Exception e) {
             return false;
         }
     }

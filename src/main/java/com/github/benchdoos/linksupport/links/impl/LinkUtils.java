@@ -63,4 +63,34 @@ class LinkUtils {
             return false;
         }
     }
+
+    /**
+     * Validate given file is file and not a directory
+     *
+     * @param file to check
+     * @throws IllegalArgumentException if file not valid
+     */
+    static void validateFile(final File file) throws IllegalArgumentException {
+        if (file == null) {
+            throw new IllegalArgumentException("Given file can not be null");
+        }
+
+        if (file.isDirectory()) {
+            throw new IllegalArgumentException("Given path can not be a directory: " + file.getAbsolutePath());
+        }
+    }
+
+    /**
+     * Validate given as in {@link #validateFile(File)} and checks if file exists
+     *
+     * @param file to check
+     * @throws IllegalArgumentException if file not valid
+     */
+    static void validateExistedFile(final File file) throws IllegalArgumentException{
+        validateFile(file);
+
+        if (!file.exists()) {
+            throw new IllegalArgumentException("File does not exist: " + file.getAbsolutePath());
+        }
+    }
 }
