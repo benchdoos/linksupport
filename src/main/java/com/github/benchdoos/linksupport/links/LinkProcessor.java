@@ -15,6 +15,8 @@
 
 package com.github.benchdoos.linksupport.links;
 
+import lombok.NonNull;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +34,7 @@ public interface LinkProcessor {
      * @param outputStream where to write
      * @throws IOException if can not write url to stream
      */
-    void createLink(URL url, OutputStream outputStream) throws IOException;
+    void createLink(@NonNull URL url, @NonNull OutputStream outputStream) throws IOException;
 
     /**
      * Creates link file. Closes stream after write.
@@ -41,7 +43,7 @@ public interface LinkProcessor {
      * @param file to create
      * @throws IOException if can not write url to file
      */
-    void createLink(URL url, File file) throws IOException;
+    void createLink(@NonNull URL url, @NonNull File file) throws IOException;
 
     /**
      * Gets url from input stream
@@ -51,7 +53,7 @@ public interface LinkProcessor {
      * @throws java.io.IOException if something wrong with input-output
      * @throws java.net.MalformedURLException if url can not be parsed
      */
-    URL getUrl(InputStream inputStream) throws IOException;
+    URL getUrl(@NonNull InputStream inputStream) throws IOException;
 
     /**
      * Gets url from file
@@ -61,7 +63,7 @@ public interface LinkProcessor {
      * @throws java.io.IOException if something wrong with file
      * @throws java.net.MalformedURLException if url can not bes parsed
      */
-    URL getUrl(File file) throws IOException;
+    URL getUrl(@NonNull File file) throws IOException;
 
     /**
      * Checks if given {@link java.io.File} is instance of current {@link com.github.benchdoos.linksupport.links.Link}
@@ -71,5 +73,5 @@ public interface LinkProcessor {
      * @return true, if given {@link java.io.File} is instance of current
      * {@link com.github.benchdoos.linksupport.links.Link}
      */
-    boolean instance(File file);
+    boolean instance(@NonNull File file);
 }

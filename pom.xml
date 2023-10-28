@@ -6,7 +6,7 @@
 
     <groupId>com.github.benchdoos</groupId>
     <artifactId>LinkSupport</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -50,6 +50,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <mockito.version>4.5.1</mockito.version>
+        <log4j.version>2.17.1</log4j.version>
+        <dd-plist.version>1.27</dd-plist.version>
+        <commons-io.version>2.7</commons-io.version>
+        <tika-core.version>2.5.0</tika-core.version>
+        <lombok.version>1.18.8</lombok.version>
+        <junit-jupiter-api.version>5.5.0</junit-jupiter-api.version>
+        <assertj-core.version>3.13.2</assertj-core.version>
     </properties>
 
     <dependencies>
@@ -57,33 +65,33 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
-            <version>2.11.0</version>
+            <version>${log4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
-            <version>2.13.2</version>
+            <version>${log4j.version}</version>
         </dependency>
 
         <!-- Working with plist -->
         <dependency>
             <groupId>com.googlecode.plist</groupId>
             <artifactId>dd-plist</artifactId>
-            <version>1.23</version>
+            <version>${dd-plist.version}</version>
         </dependency>
 
         <!-- Apache commons io -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.5</version>
+            <version>${commons-io.version}</version>
         </dependency>
 
         <!-- Apache Tika for media-types support-->
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>1.22</version>
+            <version>${tika-core.version}</version>
         </dependency>
 
 
@@ -91,20 +99,27 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.8</version>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.5.0</version>
+            <version>${junit-jupiter-api.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.13.2</version>
+            <version>${assertj-core.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

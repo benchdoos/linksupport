@@ -1,6 +1,6 @@
 package com.github.benchdoos.linksupport.links.impl;
 
-import com.github.benchdoos.linksupport.AbstractTest;
+import com.github.benchdoos.linksupport.UnitTest;
 import com.github.benchdoos.linksupport.links.Link;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
 import org.apache.logging.log4j.core.util.FileUtils;
@@ -13,16 +13,16 @@ import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class CommonLinkProcessorTest  extends AbstractTest {
+class CommonLinkProcessorTest extends UnitTest {
 
     @Test
     void getUrlMustSuccessfullyFinish() throws IOException {
         for (Link testLink : Link.values()) {
             final File file = new File(RESOURCES + File.separator + "test_link." + testLink.getExtension());
 
-            System.out.println(String.format("Testing getting url by link: %s from file: %s", testLink, file));
+            System.out.printf("Testing getting url by link: %s from file: %s%n", testLink, file);
 
-            assertThat(file.exists()).isTrue();
+            assertThat(file).exists();
             final FileInputStream fileInputStream = new FileInputStream(file);
 
             final Link link = Link.getByExtension(FileUtils.getFileExtension(file));
@@ -30,7 +30,7 @@ public class CommonLinkProcessorTest  extends AbstractTest {
             final URL url = linkProcessor.getUrl(fileInputStream);
 
             assertThat(url).isNotNull();
-            assertThat(url.toString()).isEqualTo(EXPECTED_URL);
+            assertThat(url).hasToString(EXPECTED_URL);
             assertThat(link).isEqualTo(testLink);
         }
     }
