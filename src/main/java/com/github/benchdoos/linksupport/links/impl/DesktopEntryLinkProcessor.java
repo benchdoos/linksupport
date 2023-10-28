@@ -49,7 +49,7 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
 
     @Override
     public void createLink(@NonNull URL url, @NonNull File file) throws IOException {
-        if (!file.isDirectory()) {
+        if (file.exists() && (!file.isFile())) {
             throw new IllegalArgumentException("Given file is a directory: " + file);
         }
 
@@ -60,7 +60,11 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
 
     @Override
     public URL getUrl(@NonNull InputStream inputStream) throws IOException {
-        return LinkUtils.getUrl(inputStream);
+        try{
+            return LinkUtils.getUrl(inputStream);
+        } finally {
+            inputStream.close();
+        }
     }
 
     @Override

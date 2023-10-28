@@ -51,7 +51,7 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
 
     @Override
     public void createLink(@NonNull URL url, @NonNull File file) throws IOException {
-        if (!file.isDirectory()) {
+        if (file.exists() && (!file.isFile())) {
             throw new IllegalArgumentException("Given file is a directory: " + file);
         }
 
@@ -67,6 +67,8 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
             return new URL(rootDict.objectForKey("URL").toString());
         } catch (PropertyListFormatException | ParseException | ParserConfigurationException | SAXException e) {
             throw new IOException("Could not parse input stream", e);
+        } finally {
+            inputStream.close();
         }
     }
 

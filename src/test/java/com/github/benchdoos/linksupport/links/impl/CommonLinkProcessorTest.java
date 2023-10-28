@@ -1,6 +1,6 @@
 package com.github.benchdoos.linksupport.links.impl;
 
-import com.github.benchdoos.linksupport.AbstractTest;
+import com.github.benchdoos.linksupport.UnitTest;
 import com.github.benchdoos.linksupport.links.Link;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
 import org.apache.logging.log4j.core.util.FileUtils;
@@ -13,7 +13,7 @@ import java.net.URL;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CommonLinkProcessorTest extends AbstractTest {
+class CommonLinkProcessorTest extends UnitTest {
 
     @Test
     void getUrlMustSuccessfullyFinish() throws IOException {

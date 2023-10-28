@@ -1,14 +1,15 @@
 package com.github.benchdoos.linksupport.links;
 
-import com.github.benchdoos.linksupport.AbstractTest;
+import com.github.benchdoos.linksupport.UnitTest;
+import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-public class LinkTest extends AbstractTest {
+class LinkTest extends UnitTest {
     @Test
-    public void getLinkByFile() {
+    void getLinkByFile() {
         for (Link link : Link.values()) {
             final File file = new File(RESOURCES + File.separator + "test_link." + link.getExtension());
             Assertions.assertThat(file).isNotNull().exists();

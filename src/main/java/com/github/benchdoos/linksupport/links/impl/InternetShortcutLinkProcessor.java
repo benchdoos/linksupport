@@ -46,8 +46,8 @@ public class InternetShortcutLinkProcessor implements LinkProcessor {
     }
 
     @Override
-    public void createLink(URL url, File file) throws IOException {
-        if (!file.isDirectory()) {
+    public void createLink(@NonNull URL url, @NonNull File file) throws IOException {
+        if (file.exists() && (!file.isFile())) {
             throw new IllegalArgumentException("Given file is a directory: " + file);
         }
 
