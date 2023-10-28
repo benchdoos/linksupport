@@ -18,9 +18,8 @@ package com.github.benchdoos.linksupport.links.impl;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
-import com.github.benchdoos.linksupport.links.Link;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
-import org.assertj.core.api.Assertions;
+import lombok.NonNull;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,10 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.nio.file.Files;
 import java.text.ParseException;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Link processor for MacOS Safari {@code .webloc} file
@@ -42,24 +38,30 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BinaryWeblocLinkProcessor implements LinkProcessor {
 
     @Override
-    public void createLink(URL url, OutputStream outputStream) throws IOException {
-        final NSDictionary root = new NSDictionary();
-        root.put("URL", url.toString());
-        PropertyListParser.saveAsBinary(root, outputStream);
-        outputStream.flush();
-        outputStream.close();
+    public void createLink(@NonNull URL url, @NonNull OutputStream outputStream) throws IOException {
+        try{
+            final NSDictionary root = new NSDictionary();
+            root.put("URL", url.toString());
+            PropertyListParser.saveAsBinary(root, outputStream);
+        } finally {
+            outputStream.flush();
+            outputStream.close();
+        }
     }
 
     @Override
-    public void createLink(URL url, File file) throws IOException {
-        assertThat(!file.isDirectory());
+    public void createLink(@NonNull URL url, @NonNull File file) throws IOException {
+        if (!file.isDirectory()) {
+            throw new IllegalArgumentException("Given file is a directory: " + file);
+        }
 
-        final FileOutputStream fileOutputStream = new FileOutputStream(file);
-        createLink(url, fileOutputStream);
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+            createLink(url, fileOutputStream);
+        }
     }
 
     @Override
-    public URL getUrl(InputStream inputStream) throws IOException {
+    public URL getUrl(@NonNull InputStream inputStream) throws IOException {
         try {
             final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(inputStream);
             return new URL(rootDict.objectForKey("URL").toString());
@@ -69,20 +71,26 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
     }
 
     @Override
-    public URL getUrl(File file) throws IOException {
-        Assertions.assertThat(file).isNotNull().exists();
+    public URL getUrl(@NonNull File file) throws IOException {
+        if (!file.exists()) {
+            throw new IllegalArgumentException("Given file does not exist: " + file);
+        }
 
-        return getUrl(new FileInputStream(file));
+        try (FileInputStream inputStream = new FileInputStream(file)) {
+            return getUrl(inputStream);
+        }
     }
 
     @Override
-    public boolean instance(File file) {
-        Assertions.assertThat(file).isNotNull().exists();
+    public boolean instance(@NonNull File file) {
+        if (!file.exists()) {
+            throw new IllegalArgumentException("Given file does not exist: " + file);
+        }
 
         try (final FileInputStream fileInputStream = new FileInputStream(file)) {
             final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(fileInputStream);
             return rootDict.containsKey("URL");
-        } catch (Throwable e) {
+        } catch (final Exception e) {
             return false;
         }
     }

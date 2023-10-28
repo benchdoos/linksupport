@@ -1,5 +1,7 @@
 package com.github.benchdoos.linksupport.links.impl;
 
+import lombok.experimental.UtilityClass;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -10,6 +12,7 @@ import java.util.Scanner;
 /**
  * Utils for link processing
  */
+@UtilityClass
 class LinkUtils {
 
     static final String URL_PREFIX = "URL=";

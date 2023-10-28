@@ -5,8 +5,8 @@ import com.github.benchdoos.linksupport.links.impl.DesktopEntryLinkProcessor;
 import com.github.benchdoos.linksupport.links.impl.InternetShortcutLinkProcessor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
 import org.apache.tika.mime.MediaType;
-import org.assertj.core.api.Assertions;
 
 import java.io.File;
 import java.util.Arrays;
@@ -131,8 +131,10 @@ public enum Link {
      * @param file target file
      * @return link if supported, otherwise - null
      */
-    public static Link getLinkForFile(File file) {
-        Assertions.assertThat(file).isNotNull().exists();
+    public static Link getLinkForFile(@NonNull File file) {
+        if (!file.exists()) {
+            throw new IllegalArgumentException("Given file does not exist: " + file);
+        }
 
         final Optional<Link> supported = Arrays.stream(Link.values())
                 .filter(link -> link.getLinkProcessor().instance(file))

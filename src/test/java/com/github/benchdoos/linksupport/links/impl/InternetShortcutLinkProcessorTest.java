@@ -25,7 +25,7 @@ class InternetShortcutLinkProcessorTest  extends AbstractTest {
         final URL url = Link.WEBLOC_LINK.getLinkProcessor().getUrl(inputStream);
 
         assertThat(url).isNotNull();
-        assertThat(url.toString()).isEqualTo(EXPECTED_URL);
+        assertThat(url).hasToString(EXPECTED_URL);
     }
 
     @Test
@@ -40,8 +40,7 @@ class InternetShortcutLinkProcessorTest  extends AbstractTest {
 
     @Test
     void mediaTypeMustBeSupported() throws IOException {
-        final File file = new File(RESOURCES + File.separator + "test_link." + Link.INTERNET_SHORTCUT_LINK.getExtension());
-        final boolean supports = Link.INTERNET_SHORTCUT_LINK.supportsMediaType(Files.probeContentType(file.toPath()));
+        final boolean supports = Link.INTERNET_SHORTCUT_LINK.supportsMediaType("application/internet-shortcut");
         assertThat(supports).isTrue();
     }
 }

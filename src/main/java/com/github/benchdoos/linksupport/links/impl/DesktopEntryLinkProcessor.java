@@ -16,9 +16,8 @@
 package com.github.benchdoos.linksupport.links.impl;
 
 import com.github.benchdoos.linksupport.core.LinkSupportConstants;
-import com.github.benchdoos.linksupport.links.Link;
 import com.github.benchdoos.linksupport.links.LinkProcessor;
-import org.assertj.core.api.Assertions;
+import lombok.NonNull;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,9 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.nio.file.Files;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Link processor for Linux {@code .desktop} file
@@ -39,38 +35,50 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
 
     @Override
     public void createLink(URL url, OutputStream outputStream) throws IOException {
-        outputStream.write((DESKTOP_ENTRY + "\n").getBytes());
-        outputStream.write(("Encoding=" + LinkSupportConstants.DEFAULT_LIBRARY_CHARSET + "\n").getBytes());
-        outputStream.write((LinkUtils.URL_PREFIX + url.toString() + "\n").getBytes());
-        outputStream.write(("Type=Link" + "\n").getBytes());
-        outputStream.write(("Icon=text-html" + "\n").getBytes());
-        outputStream.flush();
-        outputStream.close();
+        try{
+            outputStream.write((DESKTOP_ENTRY + "\n").getBytes());
+            outputStream.write(("Encoding=" + LinkSupportConstants.DEFAULT_LIBRARY_CHARSET + "\n").getBytes());
+            outputStream.write((LinkUtils.URL_PREFIX + url.toString() + "\n").getBytes());
+            outputStream.write(("Type=Link" + "\n").getBytes());
+            outputStream.write(("Icon=text-html" + "\n").getBytes());
+        } finally {
+            outputStream.flush();
+            outputStream.close();
+        }
     }
 
     @Override
-    public void createLink(URL url, File file) throws IOException {
-        assertThat(!file.isDirectory());
+    public void createLink(@NonNull URL url, @NonNull File file) throws IOException {
+        if (!file.isDirectory()) {
+            throw new IllegalArgumentException("Given file is a directory: " + file);
+        }
 
-        final FileOutputStream fileOutputStream = new FileOutputStream(file);
-        createLink(url, fileOutputStream);
+        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+            createLink(url, fileOutputStream);
+        }
     }
 
     @Override
-    public URL getUrl(InputStream inputStream) throws IOException {
+    public URL getUrl(@NonNull InputStream inputStream) throws IOException {
         return LinkUtils.getUrl(inputStream);
     }
 
     @Override
-    public URL getUrl(File file) throws IOException {
-        Assertions.assertThat(file).isNotNull().exists();
+    public URL getUrl(@NonNull File file) throws IOException {
+        if (!file.exists()) {
+            throw new IllegalArgumentException("Given file does not exist: " + file);
+        }
 
-        return getUrl(new FileInputStream(file));
+        try (FileInputStream inputStream = new FileInputStream(file)) {
+            return getUrl(inputStream);
+        }
     }
 
     @Override
-    public boolean instance(File file) {
-        Assertions.assertThat(file).isNotNull().exists();
+    public boolean instance(@NonNull File file) {
+        if (!file.exists()) {
+            throw new IllegalArgumentException("Given file does not exist: " + file);
+        }
 
         return LinkUtils.contains(file, DESKTOP_ENTRY);
     }

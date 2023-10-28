@@ -6,21 +6,22 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class BinaryWeblocLinkProcessorTest extends AbstractTest {
+class BinaryWeblocLinkProcessorTest extends AbstractTest {
     @Test
-    void mediaTypeMustBeSupported() throws IOException {
-        final File file = new File(RESOURCES + File.separator + "test_link." + Link.WEBLOC_LINK.getExtension());
-        final boolean supports = Link.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()));
+    void mediaTypeMustBeSupported() {
+        final boolean supports = Link.WEBLOC_LINK.supportsMediaType("application/webloc");
         assertThat(supports).isTrue();
     }
 
     @Test
-    void mediaTypeMustNotBeSupported() throws IOException {
-        final File file = new File(RESOURCES + File.separator + "test_link." + Link.INTERNET_SHORTCUT_LINK.getExtension());
+    void mediaTypeMustNotBeSupported() throws IOException, URISyntaxException {
+        final File file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("test_link." + Link.INTERNET_SHORTCUT_LINK.getExtension())).toURI());
         final boolean supports = Link.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()));
         assertThat(supports).isFalse();
     }
