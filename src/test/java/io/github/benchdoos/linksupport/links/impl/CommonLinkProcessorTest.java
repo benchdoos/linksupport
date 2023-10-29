@@ -1,8 +1,8 @@
-package com.github.benchdoos.linksupport.links.impl;
+package io.github.benchdoos.linksupport.links.impl;
 
-import com.github.benchdoos.linksupport.UnitTest;
-import com.github.benchdoos.linksupport.links.Link;
-import com.github.benchdoos.linksupport.links.LinkProcessor;
+import io.github.benchdoos.linksupport.UnitTest;
+import io.github.benchdoos.linksupport.links.Link;
+import io.github.benchdoos.linksupport.links.LinkProcessor;
 import org.apache.logging.log4j.core.util.FileUtils;
 import org.junit.jupiter.api.Test;
 

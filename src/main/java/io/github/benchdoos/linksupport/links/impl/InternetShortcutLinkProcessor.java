@@ -13,9 +13,9 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package com.github.benchdoos.linksupport.links.impl;
+package io.github.benchdoos.linksupport.links.impl;
 
-import com.github.benchdoos.linksupport.links.LinkProcessor;
+import io.github.benchdoos.linksupport.links.LinkProcessor;
 import lombok.NonNull;
 
 import java.io.File;

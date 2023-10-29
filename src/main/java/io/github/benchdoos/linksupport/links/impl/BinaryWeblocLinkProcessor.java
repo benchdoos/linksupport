@@ -13,12 +13,12 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package com.github.benchdoos.linksupport.links.impl;
+package io.github.benchdoos.linksupport.links.impl;
 
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
-import com.github.benchdoos.linksupport.links.LinkProcessor;
+import io.github.benchdoos.linksupport.links.LinkProcessor;
 import lombok.NonNull;
 import org.xml.sax.SAXException;
 

@@ -1,8 +1,8 @@
-package com.github.benchdoos.linksupport.links;
+package io.github.benchdoos.linksupport.links;
 
-import com.github.benchdoos.linksupport.links.impl.BinaryWeblocLinkProcessor;
-import com.github.benchdoos.linksupport.links.impl.DesktopEntryLinkProcessor;
-import com.github.benchdoos.linksupport.links.impl.InternetShortcutLinkProcessor;
+import io.github.benchdoos.linksupport.links.impl.BinaryWeblocLinkProcessor;
+import io.github.benchdoos.linksupport.links.impl.DesktopEntryLinkProcessor;
+import io.github.benchdoos.linksupport.links.impl.InternetShortcutLinkProcessor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -14,18 +14,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_INTERNET_SHORTCUT;
-import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_OCTET_STREAM;
-import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_WEBLOC;
-import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_WEBLOCE;
-import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_DESKTOP;
-import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_MSWINURL;
-import static com.github.benchdoos.linksupport.links.MediaTypes.APPLICATION_X_URL;
-import static com.github.benchdoos.linksupport.links.MediaTypes.MESSAGE_EXTERNAL_BODY;
-import static com.github.benchdoos.linksupport.links.MediaTypes.TEXT_URL;
-import static com.github.benchdoos.linksupport.links.MediaTypes.TEXT_X_URL;
-import static com.github.benchdoos.linksupport.links.MediaTypes.WWWSERVER_REDIRECTION;
 
 /**
  * Link type information and processing
@@ -41,9 +29,9 @@ public enum Link {
             "webloc",
             new BinaryWeblocLinkProcessor(),
             Arrays.asList(
-                    APPLICATION_OCTET_STREAM,
-                    APPLICATION_WEBLOC,
-                    APPLICATION_WEBLOCE
+                    MediaTypes.APPLICATION_OCTET_STREAM,
+                    MediaTypes.APPLICATION_WEBLOC,
+                    MediaTypes.APPLICATION_WEBLOCE
             )),
 
     /**
@@ -54,18 +42,18 @@ public enum Link {
             "url",
             new InternetShortcutLinkProcessor(),
             Arrays.asList(
-                    WWWSERVER_REDIRECTION,
-                    APPLICATION_INTERNET_SHORTCUT,
-                    APPLICATION_X_MSWINURL,
-                    APPLICATION_X_URL,
-                    MESSAGE_EXTERNAL_BODY,
-                    TEXT_URL,
-                    TEXT_X_URL)),
+                    MediaTypes.WWWSERVER_REDIRECTION,
+                    MediaTypes.APPLICATION_INTERNET_SHORTCUT,
+                    MediaTypes.APPLICATION_X_MSWINURL,
+                    MediaTypes.APPLICATION_X_URL,
+                    MediaTypes.MESSAGE_EXTERNAL_BODY,
+                    MediaTypes.TEXT_URL,
+                    MediaTypes.TEXT_X_URL)),
     /**
      * Unix desktop entry web link
      */
     DESKTOP_LINK("Desktop entry link", "desktop", new DesktopEntryLinkProcessor(),
-            Collections.singletonList(APPLICATION_X_DESKTOP));
+            Collections.singletonList(MediaTypes.APPLICATION_X_DESKTOP));
 
     /**
      * Name of link type
@@ -102,7 +90,7 @@ public enum Link {
     }
 
     /**
-     * Returns list of {@link com.github.benchdoos.linksupport.links.Link} that support given Media type
+     * Returns list of {@link Link} that support given Media type
      *
      * @param mediaType to find
      * @return links with supported mime type
@@ -114,7 +102,7 @@ public enum Link {
     }
 
     /**
-     * Checks if current {@link com.github.benchdoos.linksupport.links.Link} support given media type
+     * Checks if current {@link Link} support given media type
      *
      * @param mediaTypeString for check
      * @return true if supports
@@ -125,7 +113,7 @@ public enum Link {
     }
 
     /**
-     * Returns {@link com.github.benchdoos.linksupport.links.Link} instance for given {@link java.io.File}.
+     * Returns {@link Link} instance for given {@link java.io.File}.
      * Checks {@link org.apache.tika.mime.MediaType} of given {@link java.io.File}
      *
      * @param file target file

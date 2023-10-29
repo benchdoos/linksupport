@@ -1,4 +1,4 @@
-package com.github.benchdoos.linksupport;
+package io.github.benchdoos.linksupport;
 
 import org.junit.jupiter.api.io.TempDir;
 

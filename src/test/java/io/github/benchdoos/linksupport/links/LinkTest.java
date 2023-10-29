@@ -1,7 +1,6 @@
-package com.github.benchdoos.linksupport.links;
+package io.github.benchdoos.linksupport.links;
 
-import com.github.benchdoos.linksupport.UnitTest;
-import lombok.extern.log4j.Log4j2;
+import io.github.benchdoos.linksupport.UnitTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 

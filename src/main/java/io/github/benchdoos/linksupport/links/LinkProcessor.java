@@ -13,7 +13,7 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package com.github.benchdoos.linksupport.links;
+package io.github.benchdoos.linksupport.links;
 
 import lombok.NonNull;
 
@@ -66,12 +66,12 @@ public interface LinkProcessor {
     URL getUrl(@NonNull File file) throws IOException;
 
     /**
-     * Checks if given {@link java.io.File} is instance of current {@link com.github.benchdoos.linksupport.links.Link}
+     * Checks if given {@link java.io.File} is instance of current {@link Link}
      * format. Checks {@link org.apache.tika.mime.MediaType} of given {@link java.io.File}.
      *
      * @param file file to load
      * @return true, if given {@link java.io.File} is instance of current
-     * {@link com.github.benchdoos.linksupport.links.Link}
+     * {@link Link}
      */
     boolean instance(@NonNull File file);
 }
