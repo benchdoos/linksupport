@@ -15,6 +15,7 @@
 
 package io.github.benchdoos.linksupport.links.impl;
 
+import com.dd.plist.BinaryPropertyListWriter;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
@@ -42,7 +43,7 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
         try{
             final NSDictionary root = new NSDictionary();
             root.put("URL", url.toString());
-            PropertyListParser.saveAsBinary(root, outputStream);
+            BinaryPropertyListWriter.write(root, outputStream);
         } finally {
             outputStream.flush();
             outputStream.close();
