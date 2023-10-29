@@ -1,7 +1,13 @@
 package io.github.benchdoos.linksupport.links;
 
+import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.apache.tika.mime.MediaType;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * List of supported {@link org.apache.tika.mime.MediaType}
@@ -61,4 +67,20 @@ public final class MediaTypes {
      * {@link org.apache.tika.mime.MediaType} for {@link Link#DESKTOP_LINK}
      */
     public static final MediaType APPLICATION_X_DESKTOP = new MediaType(APPLICATION, "x-desktop");
+
+    @Getter
+    public static final List<MediaType> supportedMediaTypes = Collections.unmodifiableList(
+            Stream.of(APPLICATION_OCTET_STREAM,
+                            APPLICATION_WEBLOCE,
+                            APPLICATION_WEBLOC,
+                            WWWSERVER_REDIRECTION,
+                            APPLICATION_INTERNET_SHORTCUT,
+                            APPLICATION_X_MSWINURL,
+                            APPLICATION_X_URL,
+                            MESSAGE_EXTERNAL_BODY,
+                            TEXT_URL,
+                            TEXT_X_URL,
+                            APPLICATION_X_DESKTOP)
+                    .collect(Collectors.toList()));
+
 }

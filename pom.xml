@@ -56,8 +56,8 @@
         <commons-io.version>2.7</commons-io.version>
         <tika-core.version>2.5.0</tika-core.version>
         <lombok.version>1.18.8</lombok.version>
-        <junit-jupiter-api.version>5.5.0</junit-jupiter-api.version>
         <assertj-core.version>3.13.2</assertj-core.version>
+        <junit-jupiter.version>5.10.0</junit-jupiter.version>
     </properties>
 
     <dependencies>
@@ -106,7 +106,19 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit-jupiter-api.version}</version>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
