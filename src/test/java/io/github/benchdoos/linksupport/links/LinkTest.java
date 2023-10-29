@@ -5,6 +5,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.UUID;
 
 class LinkTest extends UnitTest {
     @Test
@@ -19,5 +20,12 @@ class LinkTest extends UnitTest {
             Assertions.assertThat(linkByFile).isNotNull().isEqualTo(link);
             System.out.println("Checking successfully passed for: " + link);
         }
+    }
+
+    @Test
+    void getLinkByFileMustThrowAnException() {
+        final File unexistedFile = new File(tempDir, UUID.randomUUID() + ".extension");
+        Assertions.assertThatCode(() -> Link.getLinkForFile(unexistedFile))
+                .isExactlyInstanceOf(IllegalArgumentException.class);
     }
 }
