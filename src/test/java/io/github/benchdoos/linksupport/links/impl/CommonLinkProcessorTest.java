@@ -3,7 +3,7 @@ package io.github.benchdoos.linksupport.links.impl;
 import io.github.benchdoos.linksupport.UnitTest;
 import io.github.benchdoos.linksupport.links.Link;
 import io.github.benchdoos.linksupport.links.LinkProcessor;
-import org.apache.logging.log4j.core.util.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -32,7 +32,7 @@ class CommonLinkProcessorTest extends UnitTest {
             assertThat(file).exists();
             final FileInputStream fileInputStream = new FileInputStream(file);
 
-            final Link link = Link.getByExtension(FileUtils.getFileExtension(file));
+            final Link link = Link.getByExtension(FilenameUtils.getExtension(file.getName()));
             final LinkProcessor linkProcessor = link.getLinkProcessor();
             final URL url = linkProcessor.getUrl(fileInputStream);
 
@@ -51,15 +51,15 @@ class CommonLinkProcessorTest extends UnitTest {
                                     .getResource("links" + File.separator + "test_link." + testLink.getExtension()))
                             .toURI());
 
-            System.out.println(String.format("Testing getting url by link: %s from file: %s", testLink, file));
+            System.out.printf("Testing getting url by link: %s from file: %s%n", testLink, file);
 
-            assertThat(file.exists()).isTrue();
-            final Link link = Link.getByExtension(FileUtils.getFileExtension(file));
+            assertThat(file).exists();
+            final Link link = Link.getByExtension(FilenameUtils.getExtension(file.getName()));
             final LinkProcessor linkProcessor = link.getLinkProcessor();
             final URL url = linkProcessor.getUrl(file);
 
             assertThat(url).isNotNull();
-            assertThat(url.toString()).isEqualTo(EXPECTED_URL);
+            assertThat(url).hasToString(EXPECTED_URL);
             assertThat(link).isEqualTo(testLink);
         }
     }
