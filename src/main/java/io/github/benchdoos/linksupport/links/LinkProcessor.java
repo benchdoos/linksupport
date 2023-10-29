@@ -32,18 +32,18 @@ public interface LinkProcessor {
      *
      * @param url to create
      * @param outputStream where to write
-     * @throws IOException if can not write url to stream
+     * @throws IOException can not write url to stream
      */
-    void createLink(@NonNull URL url, @NonNull OutputStream outputStream) throws IOException;
+    void createLink(@NonNull URL url, @NonNull OutputStream outputStream) throws IOException, IllegalArgumentException;
 
     /**
      * Creates link file. Closes stream after write.
      *
      * @param url to write
      * @param file to create
-     * @throws IOException if can not write url to file
+     * @throws IOException can not write url to file
      */
-    void createLink(@NonNull URL url, @NonNull File file) throws IOException;
+    void createLink(@NonNull URL url, @NonNull File file) throws IOException, IllegalArgumentException;
 
     /**
      * Gets url from input stream
@@ -53,7 +53,7 @@ public interface LinkProcessor {
      * @throws java.io.IOException if something wrong with input-output
      * @throws java.net.MalformedURLException if url can not be parsed
      */
-    URL getUrl(@NonNull InputStream inputStream) throws IOException;
+    URL getUrl(@NonNull InputStream inputStream) throws IOException, IllegalArgumentException;
 
     /**
      * Gets url from file
@@ -63,7 +63,7 @@ public interface LinkProcessor {
      * @throws java.io.IOException if something wrong with file
      * @throws java.net.MalformedURLException if url can not bes parsed
      */
-    URL getUrl(@NonNull File file) throws IOException;
+    URL getUrl(@NonNull File file) throws IOException, IllegalArgumentException;
 
     /**
      * Checks if given {@link java.io.File} is instance of current {@link Link}
@@ -73,5 +73,5 @@ public interface LinkProcessor {
      * @return true, if given {@link java.io.File} is instance of current
      * {@link Link}
      */
-    boolean instance(@NonNull File file);
+    boolean instance(@NonNull File file) throws IllegalArgumentException;
 }

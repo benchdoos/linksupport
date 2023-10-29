@@ -29,7 +29,7 @@ class BinaryWeblocLinkProcessorTest extends UnitTest {
 
     @Test
     void mediaTypeMustNotBeSupported() throws IOException, URISyntaxException {
-        final File file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("test_link." + Link.INTERNET_SHORTCUT_LINK.getExtension())).toURI());
+        final File file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("links/test_link." + Link.INTERNET_SHORTCUT_LINK.getExtension())).toURI());
         final boolean supports = Link.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()));
         assertThat(supports).isFalse();
     }

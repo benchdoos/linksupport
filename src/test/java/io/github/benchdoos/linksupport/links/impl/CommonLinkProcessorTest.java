@@ -9,16 +9,23 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CommonLinkProcessorTest extends UnitTest {
 
     @Test
-    void getUrlMustSuccessfullyFinish() throws IOException {
+    void getUrlMustSuccessfullyFinish() throws IOException, URISyntaxException {
         for (Link testLink : Link.values()) {
-            final File file = new File(RESOURCES + File.separator + "test_link." + testLink.getExtension());
+            final File file = new File(
+                    Objects.requireNonNull(
+                            Objects.requireNonNull(
+                                            getClass().getClassLoader()
+                                                    .getResource("links" + File.separator + "test_link." + testLink.getExtension()))
+                                    .toURI()));
 
             System.out.printf("Testing getting url by link: %s from file: %s%n", testLink, file);
 
@@ -37,9 +44,12 @@ class CommonLinkProcessorTest extends UnitTest {
 
 
     @Test
-    void getUrlFromFileMustSuccessfullyFinish() throws IOException {
+    void getUrlFromFileMustSuccessfullyFinish() throws IOException, URISyntaxException {
         for (Link testLink : Link.values()) {
-            final File file = new File(RESOURCES + File.separator + "test_link." + testLink.getExtension());
+            final File file = new File(
+                    Objects.requireNonNull(getClass().getClassLoader()
+                                    .getResource("links" + File.separator + "test_link." + testLink.getExtension()))
+                            .toURI());
 
             System.out.println(String.format("Testing getting url by link: %s from file: %s", testLink, file));
 

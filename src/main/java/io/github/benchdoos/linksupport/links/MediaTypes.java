@@ -1,6 +1,8 @@
 package io.github.benchdoos.linksupport.links;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.UtilityClass;
 import org.apache.tika.mime.MediaType;
 

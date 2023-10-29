@@ -69,9 +69,7 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
 
     @Override
     public URL getUrl(@NonNull File file) throws IOException {
-        if (!file.exists()) {
-            throw new IllegalArgumentException("Given file does not exist: " + file);
-        }
+        LinkUtils.checkIfFileExistsAndIsNotADirectory(file);
 
         try (FileInputStream inputStream = new FileInputStream(file)) {
             return getUrl(inputStream);

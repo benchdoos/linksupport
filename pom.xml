@@ -57,7 +57,7 @@
         <tika-core.version>2.5.0</tika-core.version>
         <lombok.version>1.18.8</lombok.version>
         <assertj-core.version>3.13.2</assertj-core.version>
-        <junit-jupiter.version>5.10.0</junit-jupiter.version>
+        <junit-jupiter.version>5.9.3</junit-jupiter.version>
     </properties>
 
     <dependencies>
@@ -237,9 +237,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <!--  <configuration>
-                      <skip>true</skip> &lt;!&ndash;fix an issue, when gpg does not want to sing&ndash;&gt;
-                  </configuration>-->
             </plugin>
 
             <plugin>
@@ -258,9 +255,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M3</version>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
             </plugin>
 
             <plugin>

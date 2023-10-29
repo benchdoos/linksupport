@@ -9,7 +9,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -17,9 +19,13 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class LinkTest extends UnitTest {
     @Test
-    void getLinkByFile() {
+    void getLinkByFile() throws URISyntaxException {
         for (Link link : Link.values()) {
-            final File file = new File(RESOURCES + File.separator + "test_link." + link.getExtension());
+            final File file = new File(
+                    Objects.requireNonNull(Objects.requireNonNull(
+                                    getClass().getClassLoader()
+                                            .getResource("links" + File.separator + "test_link." + link.getExtension()))
+                            .toURI()));
             Assertions.assertThat(file).isNotNull().exists();
 
             System.out.println("Checking " + link + " for file: " + file);

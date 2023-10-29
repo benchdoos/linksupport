@@ -63,8 +63,17 @@ class LinkUtils {
                 }
             }
             return containEntry && containsUrl;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return false;
+        }
+    }
+
+    static void checkIfFileExistsAndIsNotADirectory(@NonNull final File file) {
+        if (!file.exists()) {
+            throw new IllegalArgumentException("Given file does not exist: " + file);
+        }
+        if (file.isDirectory()) {
+            throw new IllegalArgumentException("Can not get url from directory: " + file + " give file instead");
         }
     }
 }
