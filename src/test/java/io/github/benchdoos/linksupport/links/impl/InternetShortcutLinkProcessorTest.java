@@ -1,7 +1,7 @@
-package com.github.benchdoos.linksupport.links.impl;
+package io.github.benchdoos.linksupport.links.impl;
 
-import com.github.benchdoos.linksupport.UnitTest;
-import com.github.benchdoos.linksupport.links.Link;
+import io.github.benchdoos.linksupport.UnitTest;
+import io.github.benchdoos.linksupport.links.Link;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

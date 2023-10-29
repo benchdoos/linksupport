@@ -13,11 +13,17 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package com.github.benchdoos.linksupport.links.impl;
+package io.github.benchdoos.linksupport.links.impl;
 
-import com.github.benchdoos.linksupport.links.LinkProcessor;
+import com.dd.plist.BinaryPropertyListWriter;
+import com.dd.plist.NSDictionary;
+import com.dd.plist.PropertyListFormatException;
+import com.dd.plist.PropertyListParser;
+import io.github.benchdoos.linksupport.links.LinkProcessor;
 import lombok.NonNull;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -25,24 +31,23 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.text.ParseException;
 
 /**
- * Link processor for {@code .url} file
+ * Link processor for MacOS Safari {@code .webloc} file
  */
-public class InternetShortcutLinkProcessor implements LinkProcessor {
-
-    private static final String INTERNET_SHORTCUT = "[InternetShortcut]";
+public class BinaryWeblocLinkProcessor implements LinkProcessor {
 
     @Override
-    public void createLink(URL url, OutputStream outputStream) throws IOException {
+    public void createLink(@NonNull URL url, @NonNull OutputStream outputStream) throws IOException {
         try{
-            outputStream.write((INTERNET_SHORTCUT + "\n").getBytes());
-            outputStream.write((LinkUtils.URL_PREFIX + url.toString() + "\n").getBytes());
+            final NSDictionary root = new NSDictionary();
+            root.put("URL", url.toString());
+            BinaryPropertyListWriter.write(root, outputStream);
         } finally {
             outputStream.flush();
             outputStream.close();
         }
-
     }
 
     @Override
@@ -58,14 +63,19 @@ public class InternetShortcutLinkProcessor implements LinkProcessor {
 
     @Override
     public URL getUrl(@NonNull InputStream inputStream) throws IOException {
-        return LinkUtils.getUrl(inputStream);
+        try {
+            final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(inputStream);
+            return new URL(rootDict.objectForKey("URL").toString());
+        } catch (PropertyListFormatException | ParseException | ParserConfigurationException | SAXException e) {
+            throw new IOException("Could not parse input stream", e);
+        } finally {
+            inputStream.close();
+        }
     }
 
     @Override
     public URL getUrl(@NonNull File file) throws IOException {
-        if (!file.exists()) {
-            throw new IllegalArgumentException("Given file does not exist: " + file);
-        }
+        LinkUtils.checkIfFileExistsAndIsNotADirectory(file);
 
         try (FileInputStream inputStream = new FileInputStream(file)) {
             return getUrl(inputStream);
@@ -78,6 +88,11 @@ public class InternetShortcutLinkProcessor implements LinkProcessor {
             throw new IllegalArgumentException("Given file does not exist: " + file);
         }
 
-        return LinkUtils.contains(file, INTERNET_SHORTCUT);
+        try (final FileInputStream fileInputStream = new FileInputStream(file)) {
+            final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(fileInputStream);
+            return rootDict.containsKey("URL");
+        } catch (final Exception e) {
+            return false;
+        }
     }
 }

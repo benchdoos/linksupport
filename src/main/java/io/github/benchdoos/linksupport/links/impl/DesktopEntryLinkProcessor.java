@@ -13,16 +13,12 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package com.github.benchdoos.linksupport.links.impl;
+package io.github.benchdoos.linksupport.links.impl;
 
-import com.dd.plist.NSDictionary;
-import com.dd.plist.PropertyListFormatException;
-import com.dd.plist.PropertyListParser;
-import com.github.benchdoos.linksupport.links.LinkProcessor;
+import io.github.benchdoos.linksupport.core.LinkSupportConstants;
+import io.github.benchdoos.linksupport.links.LinkProcessor;
 import lombok.NonNull;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,19 +26,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
-import java.text.ParseException;
 
 /**
- * Link processor for MacOS Safari {@code .webloc} file
+ * Link processor for Linux {@code .desktop} file
  */
-public class BinaryWeblocLinkProcessor implements LinkProcessor {
+public class DesktopEntryLinkProcessor implements LinkProcessor {
+    private static final String DESKTOP_ENTRY = "[Desktop Entry]";
 
     @Override
-    public void createLink(@NonNull URL url, @NonNull OutputStream outputStream) throws IOException {
+    public void createLink(URL url, OutputStream outputStream) throws IOException {
         try{
-            final NSDictionary root = new NSDictionary();
-            root.put("URL", url.toString());
-            PropertyListParser.saveAsBinary(root, outputStream);
+            outputStream.write((DESKTOP_ENTRY + "\n").getBytes());
+            outputStream.write(("Encoding=" + LinkSupportConstants.DEFAULT_LIBRARY_CHARSET + "\n").getBytes());
+            outputStream.write((LinkUtils.URL_PREFIX + url.toString() + "\n").getBytes());
+            outputStream.write(("Type=Link" + "\n").getBytes());
+            outputStream.write(("Icon=text-html" + "\n").getBytes());
         } finally {
             outputStream.flush();
             outputStream.close();
@@ -62,11 +60,8 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
 
     @Override
     public URL getUrl(@NonNull InputStream inputStream) throws IOException {
-        try {
-            final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(inputStream);
-            return new URL(rootDict.objectForKey("URL").toString());
-        } catch (PropertyListFormatException | ParseException | ParserConfigurationException | SAXException e) {
-            throw new IOException("Could not parse input stream", e);
+        try{
+            return LinkUtils.getUrl(inputStream);
         } finally {
             inputStream.close();
         }
@@ -74,9 +69,7 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
 
     @Override
     public URL getUrl(@NonNull File file) throws IOException {
-        if (!file.exists()) {
-            throw new IllegalArgumentException("Given file does not exist: " + file);
-        }
+        LinkUtils.checkIfFileExistsAndIsNotADirectory(file);
 
         try (FileInputStream inputStream = new FileInputStream(file)) {
             return getUrl(inputStream);
@@ -89,11 +82,6 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
             throw new IllegalArgumentException("Given file does not exist: " + file);
         }
 
-        try (final FileInputStream fileInputStream = new FileInputStream(file)) {
-            final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(fileInputStream);
-            return rootDict.containsKey("URL");
-        } catch (final Exception e) {
-            return false;
-        }
+        return LinkUtils.contains(file, DESKTOP_ENTRY);
     }
 }

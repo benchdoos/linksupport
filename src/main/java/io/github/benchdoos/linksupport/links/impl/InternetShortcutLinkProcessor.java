@@ -13,10 +13,9 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package com.github.benchdoos.linksupport.links.impl;
+package io.github.benchdoos.linksupport.links.impl;
 
-import com.github.benchdoos.linksupport.core.LinkSupportConstants;
-import com.github.benchdoos.linksupport.links.LinkProcessor;
+import io.github.benchdoos.linksupport.links.LinkProcessor;
 import lombok.NonNull;
 
 import java.io.File;
@@ -28,23 +27,22 @@ import java.io.OutputStream;
 import java.net.URL;
 
 /**
- * Link processor for Linux {@code .desktop} file
+ * Link processor for {@code .url} file
  */
-public class DesktopEntryLinkProcessor implements LinkProcessor {
-    private static final String DESKTOP_ENTRY = "[Desktop Entry]";
+public class InternetShortcutLinkProcessor implements LinkProcessor {
+
+    private static final String INTERNET_SHORTCUT = "[InternetShortcut]";
 
     @Override
     public void createLink(URL url, OutputStream outputStream) throws IOException {
         try{
-            outputStream.write((DESKTOP_ENTRY + "\n").getBytes());
-            outputStream.write(("Encoding=" + LinkSupportConstants.DEFAULT_LIBRARY_CHARSET + "\n").getBytes());
+            outputStream.write((INTERNET_SHORTCUT + "\n").getBytes());
             outputStream.write((LinkUtils.URL_PREFIX + url.toString() + "\n").getBytes());
-            outputStream.write(("Type=Link" + "\n").getBytes());
-            outputStream.write(("Icon=text-html" + "\n").getBytes());
         } finally {
             outputStream.flush();
             outputStream.close();
         }
+
     }
 
     @Override
@@ -60,18 +58,12 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
 
     @Override
     public URL getUrl(@NonNull InputStream inputStream) throws IOException {
-        try{
-            return LinkUtils.getUrl(inputStream);
-        } finally {
-            inputStream.close();
-        }
+        return LinkUtils.getUrl(inputStream);
     }
 
     @Override
     public URL getUrl(@NonNull File file) throws IOException {
-        if (!file.exists()) {
-            throw new IllegalArgumentException("Given file does not exist: " + file);
-        }
+        LinkUtils.checkIfFileExistsAndIsNotADirectory(file);
 
         try (FileInputStream inputStream = new FileInputStream(file)) {
             return getUrl(inputStream);
@@ -84,6 +76,6 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
             throw new IllegalArgumentException("Given file does not exist: " + file);
         }
 
-        return LinkUtils.contains(file, DESKTOP_ENTRY);
+        return LinkUtils.contains(file, INTERNET_SHORTCUT);
     }
 }

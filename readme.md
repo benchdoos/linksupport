@@ -6,7 +6,7 @@ Gives ability to create files for `java.net.URL`: `.url`, `.desktop`, `.webloc`.
 **How to use:**
 
 - import to your project
-- use `com.github.benchdoos.linksupport.links.Link` to operate with links
+- use `links.io.github.benchdoos.linksupport.Link` to operate with links
 
 **Examples:**
 
@@ -72,7 +72,7 @@ class Demo {
 }
 ```
 
-If you don't know exact file type, you can use `getLinkForFile(File file)` in `com.github.benchdoos.linksupport.links.Link`:
+If you don't know exact file type, you can use `getLinkForFile(File file)` in `links.io.github.benchdoos.linksupport.Link`:
 ```
 import java.io.File;
 import java.io.IOException;

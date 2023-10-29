@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.benchdoos</groupId>
-    <artifactId>LinkSupport</artifactId>
+    <groupId>io.github.benchdoos</groupId>
+    <artifactId>linksupport</artifactId>
     <version>1.5.0</version>
     <packaging>jar</packaging>
 
@@ -50,28 +50,25 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <mockito.version>4.5.1</mockito.version>
-        <log4j.version>2.17.1</log4j.version>
         <dd-plist.version>1.27</dd-plist.version>
         <commons-io.version>2.7</commons-io.version>
         <tika-core.version>2.5.0</tika-core.version>
         <lombok.version>1.18.8</lombok.version>
-        <junit-jupiter-api.version>5.5.0</junit-jupiter-api.version>
+
+        <!-- Tests -->
+        <mockito.version>4.5.1</mockito.version>
         <assertj-core.version>3.13.2</assertj-core.version>
+        <junit-jupiter.version>5.9.3</junit-jupiter.version>
+
+        <!-- Plugins -->
+        <maven-source-plugin.version>3.1.0</maven-source-plugin.version>
+        <maven-javadoc-plugin.version>3.1.1</maven-javadoc-plugin.version>
+        <maven-checkstyle-plugin.version>3.3.1</maven-checkstyle-plugin.version>
+        <maven-surefire-plugin.version>3.2.1</maven-surefire-plugin.version>
+        <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
     </properties>
 
     <dependencies>
-        <!--Logging-->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
 
         <!-- Working with plist -->
         <dependency>
@@ -103,10 +100,23 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit-jupiter-api.version}</version>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit-jupiter.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -131,7 +141,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
-                        <version>3.1.0</version>
+                        <version>${maven-source-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
@@ -144,7 +154,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.1.1</version>
+                        <version>${maven-javadoc-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>attach-javadocs</id>
@@ -157,7 +167,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
+                        <version>${maven-gpg-plugin.version}</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -215,7 +225,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
+                <version>${maven-gpg-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -225,9 +235,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <!--  <configuration>
-                      <skip>true</skip> &lt;!&ndash;fix an issue, when gpg does not want to sing&ndash;&gt;
-                  </configuration>-->
             </plugin>
 
             <plugin>
@@ -245,16 +252,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
+                <version>${maven-surefire-plugin.version}</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>${maven-checkstyle-plugin.version}</version>
             </plugin>
         </plugins>
     </build>
