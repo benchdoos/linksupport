@@ -20,17 +20,17 @@ import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
 import io.github.benchdoos.linksupport.links.links.LinkProcessor;
+import io.github.benchdoos.linksupport.links.validators.FileValidator;
 import lombok.NonNull;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
 import java.text.ParseException;
 
 /**
@@ -39,7 +39,7 @@ import java.text.ParseException;
 public class BinaryWeblocLinkProcessor implements LinkProcessor {
 
     @Override
-    public void createLink(@NonNull URL url, @NonNull OutputStream outputStream) throws IOException {
+    public void createLink(@NonNull final URL url, @NonNull final OutputStream outputStream) throws IOException {
         try{
             final NSDictionary root = new NSDictionary();
             root.put("URL", url.toString());
@@ -51,43 +51,43 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
     }
 
     @Override
-    public void createLink(@NonNull URL url, @NonNull File file) throws IOException {
-        if (file.exists() && (!file.isFile())) {
+    public void createLink(@NonNull final URL url, @NonNull final File file) throws IOException {
+        if (file.exists() && (file.isDirectory())) {
             throw new IllegalArgumentException("Given file is a directory: " + file);
         }
 
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-            createLink(url, fileOutputStream);
+        try (final OutputStream fos = Files.newOutputStream(file.toPath())) {
+            createLink(url, fos);
         }
     }
 
     @Override
-    public URL getUrl(@NonNull InputStream inputStream) throws IOException {
+    public URL getUrl(@NonNull final InputStream inputStream) throws IOException {
         try {
             final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(inputStream);
             return new URL(rootDict.objectForKey("URL").toString());
-        } catch (PropertyListFormatException | ParseException | ParserConfigurationException | SAXException e) {
-            throw new IOException("Could not parse input stream", e);
+        } catch (final PropertyListFormatException | ParseException | ParserConfigurationException | SAXException e) {
+            throw new IOException("Could not parse InputStream", e);
         } finally {
             inputStream.close();
         }
     }
 
     @Override
-    public URL getUrl(@NonNull File file) throws IOException {
-        LinkUtils.checkIfFileExistsAndIsNotADirectory(file);
+    public URL getUrl(@NonNull final File file) throws IOException {
+        FileValidator.fileMustExistAndMustBeAFile(file);
 
-        try (FileInputStream inputStream = new FileInputStream(file)) {
+        try (final InputStream inputStream = Files.newInputStream(file.toPath())) {
             return getUrl(inputStream);
         }
     }
 
     @Override
-    public boolean instance(@NonNull File file) {
-        LinkUtils.checkIfFileExists(file);
+    public boolean instance(@NonNull final File file) {
+        FileValidator.fileMustExist(file);
 
-        try (final FileInputStream fileInputStream = new FileInputStream(file)) {
-            final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(fileInputStream);
+        try (final InputStream fis = Files.newInputStream(file.toPath())) {
+            final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(fis);
             return rootDict.containsKey("URL");
         } catch (final Exception e) {
             return false;

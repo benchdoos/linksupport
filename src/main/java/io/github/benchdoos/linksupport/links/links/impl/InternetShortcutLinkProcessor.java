@@ -16,15 +16,15 @@
 package io.github.benchdoos.linksupport.links.links.impl;
 
 import io.github.benchdoos.linksupport.links.links.LinkProcessor;
+import io.github.benchdoos.linksupport.links.validators.FileValidator;
 import lombok.NonNull;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.file.Files;
 
 /**
  * Link processor for {@code .url} file
@@ -34,7 +34,7 @@ public class InternetShortcutLinkProcessor implements LinkProcessor {
     private static final String INTERNET_SHORTCUT = "[InternetShortcut]";
 
     @Override
-    public void createLink(URL url, OutputStream outputStream) throws IOException {
+    public void createLink(final URL url, final OutputStream outputStream) throws IOException {
         try{
             outputStream.write((INTERNET_SHORTCUT + "\n").getBytes());
             outputStream.write((LinkUtils.URL_PREFIX + url.toString() + "\n").getBytes());
@@ -46,35 +46,33 @@ public class InternetShortcutLinkProcessor implements LinkProcessor {
     }
 
     @Override
-    public void createLink(@NonNull URL url, @NonNull File file) throws IOException {
+    public void createLink(@NonNull final URL url, @NonNull final File file) throws IOException {
         if (file.exists() && (!file.isFile())) {
             throw new IllegalArgumentException("Given file is a directory: " + file);
         }
 
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
-            createLink(url, fileOutputStream);
+        try (final OutputStream fos = Files.newOutputStream(file.toPath())) {
+            createLink(url, fos);
         }
     }
 
     @Override
-    public URL getUrl(@NonNull InputStream inputStream) throws IOException {
+    public URL getUrl(@NonNull final InputStream inputStream) throws IOException {
         return LinkUtils.getUrl(inputStream);
     }
 
     @Override
-    public URL getUrl(@NonNull File file) throws IOException {
-        LinkUtils.checkIfFileExistsAndIsNotADirectory(file);
+    public URL getUrl(@NonNull final File file) throws IOException {
+        FileValidator.fileMustExistAndMustBeAFile(file);
 
-        try (FileInputStream inputStream = new FileInputStream(file)) {
+        try (final InputStream inputStream = Files.newInputStream(file.toPath())) {
             return getUrl(inputStream);
         }
     }
 
     @Override
-    public boolean instance(@NonNull File file) {
-        if (!file.exists()) {
-            throw new IllegalArgumentException("Given file does not exist: " + file);
-        }
+    public boolean instance(@NonNull final File file) {
+        FileValidator.fileMustExist(file);
 
         return LinkUtils.contains(file, INTERNET_SHORTCUT);
     }

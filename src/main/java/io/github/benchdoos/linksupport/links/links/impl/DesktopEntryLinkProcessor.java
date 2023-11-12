@@ -16,6 +16,7 @@
 package io.github.benchdoos.linksupport.links.links.impl;
 
 import io.github.benchdoos.linksupport.links.links.LinkProcessor;
+import io.github.benchdoos.linksupport.links.validators.FileValidator;
 import lombok.NonNull;
 
 import java.io.File;
@@ -37,7 +38,7 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
     private static final String DESKTOP_ENTRY = "[Desktop Entry]";
 
     @Override
-    public void createLink(URL url, OutputStream outputStream) throws IOException {
+    public void createLink(final URL url, final OutputStream outputStream) throws IOException {
         try{
             outputStream.write((DESKTOP_ENTRY + "\n").getBytes());
             outputStream.write(("Encoding=" + DESKTOP_FILE_DEFAULT_CHARSET.name() + "\n").getBytes());
@@ -51,7 +52,7 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
     }
 
     @Override
-    public void createLink(@NonNull URL url, @NonNull File file) throws IOException {
+    public void createLink(@NonNull final URL url, @NonNull final File file) throws IOException {
         if (file.exists() && (!file.isFile())) {
             throw new IllegalArgumentException("Given file is a directory: " + file);
         }
@@ -62,7 +63,7 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
     }
 
     @Override
-    public URL getUrl(@NonNull InputStream inputStream) throws IOException {
+    public URL getUrl(@NonNull final InputStream inputStream) throws IOException {
         try{
             return LinkUtils.getUrl(inputStream);
         } finally {
@@ -71,8 +72,8 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
     }
 
     @Override
-    public URL getUrl(@NonNull File file) throws IOException {
-        LinkUtils.checkIfFileExistsAndIsNotADirectory(file);
+    public URL getUrl(@NonNull final File file) throws IOException {
+        FileValidator.fileMustExistAndMustBeAFile(file);
 
         try (FileInputStream inputStream = new FileInputStream(file)) {
             return getUrl(inputStream);
@@ -80,7 +81,7 @@ public class DesktopEntryLinkProcessor implements LinkProcessor {
     }
 
     @Override
-    public boolean instance(@NonNull File file) {
+    public boolean instance(@NonNull final File file) {
         if (!file.exists()) {
             throw new IllegalArgumentException("Given file does not exist: " + file);
         }

@@ -51,13 +51,13 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <dd-plist.version>1.27</dd-plist.version>
-        <commons-io.version>2.7</commons-io.version>
-        <tika-core.version>2.5.0</tika-core.version>
-        <lombok.version>1.18.8</lombok.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <tika-core.version>2.7.0</tika-core.version>
+        <lombok.version>1.18.26</lombok.version>
 
         <!-- Tests -->
-        <mockito.version>4.5.1</mockito.version>
-        <assertj-core.version>3.13.2</assertj-core.version>
+        <mockito.version>5.2.0</mockito.version>
+        <assertj-core.version>3.24.2</assertj-core.version>
         <junit-jupiter.version>5.9.3</junit-jupiter.version>
 
         <!-- Plugins -->
