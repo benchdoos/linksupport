@@ -1,13 +1,14 @@
 package io.github.benchdoos.linksupport.links.links.impl;
 
+import io.github.benchdoos.linksupport.links.exceptions.InvalidSource;
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.Scanner;
 
 /**
@@ -26,7 +27,7 @@ class LinkUtils {
      * @throws MalformedURLException if can not parse string into url
      * @see LinkUtils#URL_PREFIX
      */
-    static URL getUrl(@NonNull InputStream inputStream) throws MalformedURLException {
+    static URL getUrl(@NonNull InputStream inputStream) throws MalformedURLException, InvalidSource {
         try (final Scanner scan = new Scanner(inputStream)) {
             while (scan.hasNext()) {
                 final String next = scan.next();
@@ -38,7 +39,7 @@ class LinkUtils {
                 }
             }
         }
-        return null;
+        throw new InvalidSource("Given source does not contain any URL");
     }
 
     /**
@@ -49,8 +50,8 @@ class LinkUtils {
      * @return true if contains all needed : containEntryString and {@link LinkUtils#URL_PREFIX}
      */
     static boolean contains(@NonNull File file, @NonNull String containEntryString) {
-        try (final FileInputStream fileInputStream = new FileInputStream(file);
-             final Scanner scan = new Scanner(fileInputStream)) {
+        try (final InputStream fis = Files.newInputStream(file.toPath());
+             final Scanner scan = new Scanner(fis)) {
 
             boolean containEntry = false;
             boolean containsUrl = false;

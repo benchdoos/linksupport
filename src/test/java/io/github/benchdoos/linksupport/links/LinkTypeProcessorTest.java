@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -49,6 +50,18 @@ class LinkTypeProcessorTest extends UnitTest {
     }
 
     @ParameterizedTest
+    @MethodSource("getLinkProcessor")
+    void instanceMustReturnFalse(final LinkProcessor linkProcessor) throws IOException {
+        final File file = new File(tempDir, UUID.randomUUID() + ".extension");
+
+        try (final FileWriter writer = new FileWriter(file)) {
+            writer.append("not a link");
+        }
+
+        assertThat(linkProcessor.instance(file)).isFalse();
+    }
+
+    @ParameterizedTest
     @MethodSource("getFile")
     void getUrlFromFile(final File file) throws IOException {
         final LinkType linkTypeForFile = LinkType.getLinkForFile(file);
@@ -67,10 +80,5 @@ class LinkTypeProcessorTest extends UnitTest {
 
     public static Stream<Arguments> getLinkProcessor() {
         return Arrays.stream(LinkType.values()).map(LinkType::getLinkProcessor).map(Arguments::of);
-    }
-
-    public static Stream<Arguments> getFile() throws URISyntaxException {
-        final File libFolder = new File(Objects.requireNonNull(LinkTypeProcessorTest.class.getClassLoader().getResource("links/")).toURI());
-        return Arrays.stream(Objects.requireNonNull(libFolder.listFiles())).filter(File::isFile).filter(File::exists).map(Arguments::of);
     }
 }

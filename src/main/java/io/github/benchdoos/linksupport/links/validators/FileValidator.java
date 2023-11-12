@@ -6,7 +6,7 @@ import lombok.experimental.UtilityClass;
 import java.io.File;
 
 @UtilityClass
-public class FileValidator {
+public final class FileValidator {
 
     /**
      * Check if given file exists, and it is a file, not a directory.
