@@ -1,4 +1,4 @@
-package io.github.benchdoos.linksupport.links.impl;
+package io.github.benchdoos.linksupport.links.links.impl;
 
 import lombok.NonNull;
 import lombok.experimental.UtilityClass;
@@ -69,11 +69,15 @@ class LinkUtils {
     }
 
     static void checkIfFileExistsAndIsNotADirectory(@NonNull final File file) {
-        if (!file.exists()) {
-            throw new IllegalArgumentException("Given file does not exist: " + file);
-        }
+        checkIfFileExists(file);
         if (file.isDirectory()) {
             throw new IllegalArgumentException("Can not get url from directory: " + file + " give file instead");
+        }
+    }
+
+    static void checkIfFileExists(@NonNull File file) {
+        if (!file.exists()) {
+            throw new IllegalArgumentException("Given file does not exist: " + file);
         }
     }
 }

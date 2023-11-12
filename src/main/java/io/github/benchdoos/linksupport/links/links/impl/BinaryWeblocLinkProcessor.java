@@ -13,13 +13,13 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package io.github.benchdoos.linksupport.links.impl;
+package io.github.benchdoos.linksupport.links.links.impl;
 
 import com.dd.plist.BinaryPropertyListWriter;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.PropertyListFormatException;
 import com.dd.plist.PropertyListParser;
-import io.github.benchdoos.linksupport.links.LinkProcessor;
+import io.github.benchdoos.linksupport.links.links.LinkProcessor;
 import lombok.NonNull;
 import org.xml.sax.SAXException;
 
@@ -84,9 +84,7 @@ public class BinaryWeblocLinkProcessor implements LinkProcessor {
 
     @Override
     public boolean instance(@NonNull File file) {
-        if (!file.exists()) {
-            throw new IllegalArgumentException("Given file does not exist: " + file);
-        }
+        LinkUtils.checkIfFileExists(file);
 
         try (final FileInputStream fileInputStream = new FileInputStream(file)) {
             final NSDictionary rootDict = (NSDictionary) PropertyListParser.parse(fileInputStream);

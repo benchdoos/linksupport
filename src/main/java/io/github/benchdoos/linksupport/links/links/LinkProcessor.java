@@ -13,8 +13,9 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package io.github.benchdoos.linksupport.links;
+package io.github.benchdoos.linksupport.links.links;
 
+import io.github.benchdoos.linksupport.links.LinkType;
 import lombok.NonNull;
 
 import java.io.File;
@@ -66,12 +67,12 @@ public interface LinkProcessor {
     URL getUrl(@NonNull File file) throws IOException, IllegalArgumentException;
 
     /**
-     * Checks if given {@link java.io.File} is instance of current {@link Link}
+     * Checks if given {@link java.io.File} is instance of current {@link LinkType}
      * format. Checks {@link org.apache.tika.mime.MediaType} of given {@link java.io.File}.
      *
      * @param file file to load
      * @return true, if given {@link java.io.File} is instance of current
-     * {@link Link}
+     * {@link LinkType}
      */
     boolean instance(@NonNull File file) throws IllegalArgumentException;
 }

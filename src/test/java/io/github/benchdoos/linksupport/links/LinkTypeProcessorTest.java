@@ -1,8 +1,7 @@
 package io.github.benchdoos.linksupport.links;
 
 import io.github.benchdoos.linksupport.UnitTest;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
+import io.github.benchdoos.linksupport.links.links.LinkProcessor;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,17 +11,14 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatCode;
 
-class LinkProcessorTest extends UnitTest {
+class LinkTypeProcessorTest extends UnitTest {
 
     @ParameterizedTest
     @MethodSource("getLinkProcessor")
@@ -55,8 +51,8 @@ class LinkProcessorTest extends UnitTest {
     @ParameterizedTest
     @MethodSource("getFile")
     void getUrlFromFile(final File file) throws IOException {
-        final Link linkForFile = Link.getLinkForFile(file);
-        final URL url = linkForFile.getLinkProcessor().getUrl(file);
+        final LinkType linkTypeForFile = LinkType.getLinkForFile(file);
+        final URL url = linkTypeForFile.getLinkProcessor().getUrl(file);
         assertThat(url).isNotNull();
         assertThat(url).isEqualTo(new URL(EXPECTED_URL));
     }
@@ -66,15 +62,15 @@ class LinkProcessorTest extends UnitTest {
     void instance(final File file) {
         assertThat(file).exists();
         assertThat(file).isFile();
-        assertThatCode(() -> Link.getLinkForFile(file)).doesNotThrowAnyException();
+        assertThatCode(() -> LinkType.getLinkForFile(file)).doesNotThrowAnyException();
     }
 
     public static Stream<Arguments> getLinkProcessor() {
-        return Arrays.stream(Link.values()).map(Link::getLinkProcessor).map(Arguments::of);
+        return Arrays.stream(LinkType.values()).map(LinkType::getLinkProcessor).map(Arguments::of);
     }
 
     public static Stream<Arguments> getFile() throws URISyntaxException {
-        final File libFolder = new File(Objects.requireNonNull(LinkProcessorTest.class.getClassLoader().getResource("links/")).toURI());
+        final File libFolder = new File(Objects.requireNonNull(LinkTypeProcessorTest.class.getClassLoader().getResource("links/")).toURI());
         return Arrays.stream(Objects.requireNonNull(libFolder.listFiles())).filter(File::isFile).filter(File::exists).map(Arguments::of);
     }
 }

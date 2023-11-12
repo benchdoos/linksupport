@@ -1,8 +1,9 @@
 package io.github.benchdoos.linksupport.links;
 
-import io.github.benchdoos.linksupport.links.impl.BinaryWeblocLinkProcessor;
-import io.github.benchdoos.linksupport.links.impl.DesktopEntryLinkProcessor;
-import io.github.benchdoos.linksupport.links.impl.InternetShortcutLinkProcessor;
+import io.github.benchdoos.linksupport.links.links.impl.BinaryWeblocLinkProcessor;
+import io.github.benchdoos.linksupport.links.links.impl.DesktopEntryLinkProcessor;
+import io.github.benchdoos.linksupport.links.links.impl.InternetShortcutLinkProcessor;
+import io.github.benchdoos.linksupport.links.links.LinkProcessor;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @AllArgsConstructor
 @Getter
-public enum Link {
+public enum LinkType {
     /**
      * MacOS Safari binary-based web link
      */
@@ -58,22 +59,22 @@ public enum Link {
     /**
      * Name of link type
      */
-    private String name;
+    private final String name;
 
     /**
      * Extension without dot. Example: {@code file.webloc}, extension - {@code webloc}
      */
-    private String extension;
+    private final String extension;
 
     /**
      * Processor, that gives abilities
      */
-    private LinkProcessor linkProcessor;
+    private final LinkProcessor linkProcessor;
 
     /**
      * Supported media types for link
      */
-    private List<MediaType> mediaTypes;
+    private final List<MediaType> mediaTypes;
 
     /**
      * Returns link by extension
@@ -81,8 +82,8 @@ public enum Link {
      * @param extension without dot
      * @return link by given extension
      */
-    public static Link getByExtension(String extension) {
-        final Optional<Link> optionalLink = Arrays.stream(Link.values())
+    public static LinkType getByExtension(String extension) {
+        final Optional<LinkType> optionalLink = Arrays.stream(LinkType.values())
                 .filter(link -> link.getExtension().equalsIgnoreCase(extension))
                 .findFirst();
 
@@ -90,19 +91,19 @@ public enum Link {
     }
 
     /**
-     * Returns list of {@link Link} that support given Media type
+     * Returns list of {@link LinkType} that support given Media type
      *
      * @param mediaType to find
      * @return links with supported mime type
      */
-    public static List<Link> getLinksByMediaType(MediaType mediaType) {
-        return Arrays.stream(Link.values())
+    public static List<LinkType> getLinksByMediaType(MediaType mediaType) {
+        return Arrays.stream(LinkType.values())
                 .filter(current -> current.getMediaTypes().contains(mediaType))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Checks if current {@link Link} support given media type
+     * Checks if current {@link LinkType} support given media type
      *
      * @param mediaTypeString for check
      * @return true if supports
@@ -113,18 +114,18 @@ public enum Link {
     }
 
     /**
-     * Returns {@link Link} instance for given {@link java.io.File}.
+     * Returns {@link LinkType} instance for given {@link java.io.File}.
      * Checks {@link org.apache.tika.mime.MediaType} of given {@link java.io.File}
      *
      * @param file target file
      * @return link if supported, otherwise - null
      */
-    public static Link getLinkForFile(@NonNull File file) {
+    public static LinkType getLinkForFile(@NonNull File file) {
         if (!file.exists()) {
             throw new IllegalArgumentException("Given file does not exist: " + file);
         }
 
-        final Optional<Link> supported = Arrays.stream(Link.values())
+        final Optional<LinkType> supported = Arrays.stream(LinkType.values())
                 .filter(link -> link.getLinkProcessor().instance(file))
                 .distinct()
                 .findFirst();

@@ -17,29 +17,29 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-class LinkTest extends UnitTest {
+class LinkTypeTest extends UnitTest {
     @Test
     void getLinkByFile() throws URISyntaxException {
-        for (Link link : Link.values()) {
+        for (LinkType linkType : LinkType.values()) {
             final File file = new File(
                     Objects.requireNonNull(Objects.requireNonNull(
                                     getClass().getClassLoader()
-                                            .getResource("links" + File.separator + "test_link." + link.getExtension()))
+                                            .getResource("links" + File.separator + "test_link." + linkType.getExtension()))
                             .toURI()));
             Assertions.assertThat(file).isNotNull().exists();
 
-            System.out.println("Checking " + link + " for file: " + file);
+            System.out.println("Checking " + linkType + " for file: " + file);
 
-            final Link linkByFile = Link.getLinkForFile(file);
-            Assertions.assertThat(linkByFile).isNotNull().isEqualTo(link);
-            System.out.println("Checking successfully passed for: " + link);
+            final LinkType linkTypeByFile = LinkType.getLinkForFile(file);
+            Assertions.assertThat(linkTypeByFile).isNotNull().isEqualTo(linkType);
+            System.out.println("Checking successfully passed for: " + linkType);
         }
     }
 
     @Test
     void getLinkByFileMustThrowAnException() {
         final File unexistedFile = new File(tempDir, UUID.randomUUID() + ".extension");
-        Assertions.assertThatCode(() -> Link.getLinkForFile(unexistedFile))
+        Assertions.assertThatCode(() -> LinkType.getLinkForFile(unexistedFile))
                 .isExactlyInstanceOf(IllegalArgumentException.class);
     }
 
@@ -47,15 +47,15 @@ class LinkTest extends UnitTest {
     @MethodSource("getSupportedMediaTypes")
     void getLinksByMediaTypeMustReturnTypes(final MediaType mediaType) {
         Assertions
-                .assertThatCode(() -> Link.getLinksByMediaType(mediaType))
+                .assertThatCode(() -> LinkType.getLinksByMediaType(mediaType))
                 .doesNotThrowAnyException();
 
-        final List<Link> linkList = Link.getLinksByMediaType(mediaType);
-        assertThat(linkList).isNotEmpty();
+        final List<LinkType> linkTypeList = LinkType.getLinksByMediaType(mediaType);
+        assertThat(linkTypeList).isNotEmpty();
     }
 
 
     public static Stream<Arguments> getSupportedMediaTypes() {
-        return SupportedMediaTypes.getSupportedMediaTypes().stream().map(Arguments::of);
+        return SupportedMediaTypes.getAllMediaTypes().stream().map(Arguments::of);
     }
 }

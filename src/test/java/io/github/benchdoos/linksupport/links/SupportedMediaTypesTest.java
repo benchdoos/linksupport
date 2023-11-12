@@ -13,7 +13,7 @@ class SupportedMediaTypesTest extends UnitTest {
 
     @Test
     void getSupportedMediaTypes() {
-        final List<MediaType> supportedMediaTypes = SupportedMediaTypes.getSupportedMediaTypes();
+        final List<MediaType> supportedMediaTypes = SupportedMediaTypes.getAllMediaTypes();
         assertThat(supportedMediaTypes).isNotNull().size().isPositive();
     }
 }

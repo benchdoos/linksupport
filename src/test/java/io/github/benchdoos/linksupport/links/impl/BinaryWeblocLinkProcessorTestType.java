@@ -1,7 +1,8 @@
 package io.github.benchdoos.linksupport.links.impl;
 
 import io.github.benchdoos.linksupport.UnitTest;
-import io.github.benchdoos.linksupport.links.Link;
+import io.github.benchdoos.linksupport.links.LinkType;
+import io.github.benchdoos.linksupport.links.links.impl.BinaryWeblocLinkProcessor;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -20,17 +21,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
-class BinaryWeblocLinkProcessorTest extends UnitTest {
+class BinaryWeblocLinkProcessorTestType extends UnitTest {
     @Test
     void mediaTypeMustBeSupported() {
-        final boolean supports = Link.WEBLOC_LINK.supportsMediaType("application/webloc");
+        final boolean supports = LinkType.WEBLOC_LINK.supportsMediaType("application/webloc");
         assertThat(supports).isTrue();
     }
 
     @Test
     void mediaTypeMustNotBeSupported() throws IOException, URISyntaxException {
-        final File file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("links/test_link." + Link.INTERNET_SHORTCUT_LINK.getExtension())).toURI());
-        final boolean supports = Link.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()));
+        final File file = new File(Objects.requireNonNull(getClass().getClassLoader().getResource("links/test_link." + LinkType.INTERNET_SHORTCUT_LINK.getExtension())).toURI());
+        final boolean supports = LinkType.WEBLOC_LINK.supportsMediaType(Files.probeContentType(file.toPath()));
         assertThat(supports).isFalse();
     }
 

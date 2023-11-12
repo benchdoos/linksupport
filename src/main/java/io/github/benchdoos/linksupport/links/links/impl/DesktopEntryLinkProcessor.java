@@ -13,9 +13,9 @@
  * Eugene Zrazhevsky <eugene.zrazhevsky@gmail.com>
  */
 
-package io.github.benchdoos.linksupport.links.impl;
+package io.github.benchdoos.linksupport.links.links.impl;
 
-import io.github.benchdoos.linksupport.links.LinkProcessor;
+import io.github.benchdoos.linksupport.links.links.LinkProcessor;
 import lombok.NonNull;
 
 import java.io.File;
@@ -25,24 +25,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 /**
- * Link processor for {@code .url} file
+ * Link processor for Linux {@code .desktop} file
  */
-public class InternetShortcutLinkProcessor implements LinkProcessor {
+public class DesktopEntryLinkProcessor implements LinkProcessor {
 
-    private static final String INTERNET_SHORTCUT = "[InternetShortcut]";
+    private static final Charset DESKTOP_FILE_DEFAULT_CHARSET = StandardCharsets.UTF_8;
+    private static final String DESKTOP_ENTRY = "[Desktop Entry]";
 
     @Override
     public void createLink(URL url, OutputStream outputStream) throws IOException {
         try{
-            outputStream.write((INTERNET_SHORTCUT + "\n").getBytes());
+            outputStream.write((DESKTOP_ENTRY + "\n").getBytes());
+            outputStream.write(("Encoding=" + DESKTOP_FILE_DEFAULT_CHARSET.name() + "\n").getBytes());
             outputStream.write((LinkUtils.URL_PREFIX + url.toString() + "\n").getBytes());
+            outputStream.write(("Type=Link" + "\n").getBytes());
+            outputStream.write(("Icon=text-html" + "\n").getBytes());
         } finally {
             outputStream.flush();
             outputStream.close();
         }
-
     }
 
     @Override
@@ -51,14 +56,18 @@ public class InternetShortcutLinkProcessor implements LinkProcessor {
             throw new IllegalArgumentException("Given file is a directory: " + file);
         }
 
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file)) {
+        try (final FileOutputStream fileOutputStream = new FileOutputStream(file)) {
             createLink(url, fileOutputStream);
         }
     }
 
     @Override
     public URL getUrl(@NonNull InputStream inputStream) throws IOException {
-        return LinkUtils.getUrl(inputStream);
+        try{
+            return LinkUtils.getUrl(inputStream);
+        } finally {
+            inputStream.close();
+        }
     }
 
     @Override
@@ -76,6 +85,6 @@ public class InternetShortcutLinkProcessor implements LinkProcessor {
             throw new IllegalArgumentException("Given file does not exist: " + file);
         }
 
-        return LinkUtils.contains(file, INTERNET_SHORTCUT);
+        return LinkUtils.contains(file, DESKTOP_ENTRY);
     }
 }

@@ -1,7 +1,8 @@
 package io.github.benchdoos.linksupport.links.impl;
 
 import io.github.benchdoos.linksupport.UnitTest;
-import io.github.benchdoos.linksupport.links.Link;
+import io.github.benchdoos.linksupport.links.LinkType;
+import io.github.benchdoos.linksupport.links.links.impl.InternetShortcutLinkProcessor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,14 +21,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
-class InternetShortcutLinkProcessorTest extends UnitTest {
+class InternetShortcutLinkProcessorTestType extends UnitTest {
     @Test
     void createLink() throws IOException {
         try (ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream()) {
-            Link.WEBLOC_LINK.getLinkProcessor().createLink(new URL(EXPECTED_URL), arrayOutputStream);
+            LinkType.WEBLOC_LINK.getLinkProcessor().createLink(new URL(EXPECTED_URL), arrayOutputStream);
             final URL url;
             try (ByteArrayInputStream inputStream = new ByteArrayInputStream(arrayOutputStream.toByteArray())) {
-                url = Link.WEBLOC_LINK.getLinkProcessor().getUrl(inputStream);
+                url = LinkType.WEBLOC_LINK.getLinkProcessor().getUrl(inputStream);
             }
             assertThat(url)
                     .isNotNull()
@@ -42,14 +43,14 @@ class InternetShortcutLinkProcessorTest extends UnitTest {
         final String invalidUrl = "[InternetShortcut]\n" +
                 "URL=invalid://url\n";
         Assertions.assertThrows(MalformedURLException.class,
-                () -> Link.INTERNET_SHORTCUT_LINK.getLinkProcessor()
+                () -> LinkType.INTERNET_SHORTCUT_LINK.getLinkProcessor()
                         .getUrl(new ByteArrayInputStream(invalidUrl.getBytes()))
         );
     }
 
     @Test
     void mediaTypeMustBeSupported() throws IOException {
-        final boolean supports = Link.INTERNET_SHORTCUT_LINK.supportsMediaType("application/internet-shortcut");
+        final boolean supports = LinkType.INTERNET_SHORTCUT_LINK.supportsMediaType("application/internet-shortcut");
         assertThat(supports).isTrue();
     }
 

@@ -1,7 +1,9 @@
 package io.github.benchdoos.linksupport.links.impl;
 
 import io.github.benchdoos.linksupport.UnitTest;
-import io.github.benchdoos.linksupport.links.Link;
+import io.github.benchdoos.linksupport.links.LinkType;
+import io.github.benchdoos.linksupport.links.links.impl.DesktopEntryLinkProcessor;
+import io.github.benchdoos.linksupport.links.links.impl.InternetShortcutLinkProcessor;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -18,15 +20,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
-class DesktopEntryLinkProcessorTest extends UnitTest {
+class DesktopEntryLinkProcessorTestType extends UnitTest {
     @Test
     void createLink() throws IOException {
         final ByteArrayOutputStream arrayOutputStream = new ByteArrayOutputStream();
-        Link.DESKTOP_LINK.getLinkProcessor().createLink(new URL(EXPECTED_URL), arrayOutputStream);
+        LinkType.DESKTOP_LINK.getLinkProcessor().createLink(new URL(EXPECTED_URL), arrayOutputStream);
 
         final URL url;
         try (ByteArrayInputStream inputStream = new ByteArrayInputStream(arrayOutputStream.toByteArray())) {
-            url = Link.DESKTOP_LINK.getLinkProcessor().getUrl(inputStream);
+            url = LinkType.DESKTOP_LINK.getLinkProcessor().getUrl(inputStream);
         }
 
         assertThat(url)
@@ -36,7 +38,7 @@ class DesktopEntryLinkProcessorTest extends UnitTest {
 
     @Test
     void mediaTypeMustBeSupported() throws IOException {
-        final boolean supports = Link.DESKTOP_LINK.supportsMediaType("application/x-desktop");
+        final boolean supports = LinkType.DESKTOP_LINK.supportsMediaType("application/x-desktop");
         assertThat(supports).isTrue();
     }
 
