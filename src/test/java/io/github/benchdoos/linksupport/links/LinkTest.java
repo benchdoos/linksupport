@@ -56,6 +56,6 @@ class LinkTest extends UnitTest {
 
 
     public static Stream<Arguments> getSupportedMediaTypes() {
-        return MediaTypes.getSupportedMediaTypes().stream().map(Arguments::of);
+        return SupportedMediaTypes.getSupportedMediaTypes().stream().map(Arguments::of);
     }
 }

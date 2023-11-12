@@ -9,11 +9,11 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 
-class MediaTypesTest extends UnitTest {
+class SupportedMediaTypesTest extends UnitTest {
 
     @Test
     void getSupportedMediaTypes() {
-        final List<MediaType> supportedMediaTypes = MediaTypes.getSupportedMediaTypes();
+        final List<MediaType> supportedMediaTypes = SupportedMediaTypes.getSupportedMediaTypes();
         assertThat(supportedMediaTypes).isNotNull().size().isPositive();
     }
 }

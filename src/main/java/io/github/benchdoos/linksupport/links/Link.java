@@ -29,9 +29,9 @@ public enum Link {
             "webloc",
             new BinaryWeblocLinkProcessor(),
             Arrays.asList(
-                    MediaTypes.APPLICATION_OCTET_STREAM,
-                    MediaTypes.APPLICATION_WEBLOC,
-                    MediaTypes.APPLICATION_WEBLOCE
+                    SupportedMediaTypes.APPLICATION_OCTET_STREAM,
+                    SupportedMediaTypes.APPLICATION_WEBLOC,
+                    SupportedMediaTypes.APPLICATION_WEBLOCE
             )),
 
     /**
@@ -42,18 +42,18 @@ public enum Link {
             "url",
             new InternetShortcutLinkProcessor(),
             Arrays.asList(
-                    MediaTypes.WWWSERVER_REDIRECTION,
-                    MediaTypes.APPLICATION_INTERNET_SHORTCUT,
-                    MediaTypes.APPLICATION_X_MSWINURL,
-                    MediaTypes.APPLICATION_X_URL,
-                    MediaTypes.MESSAGE_EXTERNAL_BODY,
-                    MediaTypes.TEXT_URL,
-                    MediaTypes.TEXT_X_URL)),
+                    SupportedMediaTypes.WWWSERVER_REDIRECTION,
+                    SupportedMediaTypes.APPLICATION_INTERNET_SHORTCUT,
+                    SupportedMediaTypes.APPLICATION_X_MSWINURL,
+                    SupportedMediaTypes.APPLICATION_X_URL,
+                    SupportedMediaTypes.MESSAGE_EXTERNAL_BODY,
+                    SupportedMediaTypes.TEXT_URL,
+                    SupportedMediaTypes.TEXT_X_URL)),
     /**
      * Unix desktop entry web link
      */
     DESKTOP_LINK("Desktop entry link", "desktop", new DesktopEntryLinkProcessor(),
-            Collections.singletonList(MediaTypes.APPLICATION_X_DESKTOP));
+            Collections.singletonList(SupportedMediaTypes.APPLICATION_X_DESKTOP));
 
     /**
      * Name of link type
